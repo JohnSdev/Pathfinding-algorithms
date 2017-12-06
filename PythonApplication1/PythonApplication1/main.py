@@ -1,5 +1,6 @@
 
 import pygame
+from pygame.base import*
 import sys
 import random
 
