@@ -47,6 +47,7 @@ class Visualiser:
         if self._paths:
             for path in self._paths:
                 for col in range(self._width):
+                    print (path[col])
                     row = path[col]
                     h = (255, 0, 0)
                     self._screen.set_at((col, row), h)

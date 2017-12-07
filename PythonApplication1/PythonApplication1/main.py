@@ -18,7 +18,7 @@ visualiser.setMap( map )
 
 pathfinder = Pathfinder( visualiser, map )
 pathfinder.findCheapestPath()
-
+#pathfinder.minCost()
 visualiser.runLoop()
 
 
