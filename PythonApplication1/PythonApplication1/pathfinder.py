@@ -12,14 +12,14 @@ class Pathfinder:
         #   eventually if we just run it enough times.
         #   NOTE: Since problem is NP-hard - we won't know for sure that it is
         #         the correct answer when we get it which is a bummer.
-
+        path=[]
         # Starting at a random position on the left:
-        for x in range(0,20):
+        for x in range(0,1):
             starting_row = x
 
             # Search for one random path:
-            ( cost, path ) = self.minCost( starting_row )
-
+            ( cost ) = self.minCost( starting_row )
+            print(cost)
         # It is the only path we have found, visualise it:
        # self._visualiser.addPath(path)
 
@@ -38,69 +38,59 @@ class Pathfinder:
 
     def minCost(self, start):
         cost=0
-   
+        totalsum=[]
     #    # for q in range(0,5):
         
 	   # # Instead of following line, we can use int tc[m+1][n+1] or
 	   # # dynamically allocate memoery to save space. The following
 	   # # line is used to keep te program simple and make it working
-	   # # on all compilers.
-
+	   # # on all compilers
         rows = self._map.getHeight()
         cols = self._map.getWidth()
-
         row = start
-
         costn = []
         col=0
         path=[ row ]
         path.append( row )
+        #Rotate matrix 90deg
         matrix=self._map.getMatrix()
         new=list(zip(*matrix))[::-1]
-        rotatedmap = list(map(list, new))
+        newmatrix = list(map(list, new))
+        #Temporary array size
         R = 900
         C = 600
-        m=843
-        n=start
-        #col=0
-        
-        #path=[col]
-        
-        step=5
+        #Point to find min cost path in array
+        m=839
+        n=300
 
+        total_cost=[]
         tc = [[0 for x in range(C)] for x in range(R)]
-        
-        tc[0][0] = rotatedmap[0][step]#col 3
+        step=0
+        tc[0][0] = newmatrix[0][step]#col 3
     
-        # Initialize first column of total cost(tc) array
+    
         for i in range(1, m+1):
-            tc[i][0] = tc[i-1][0] + rotatedmap[i][step]
-        
-        # Initialize first row of tc array
+            tc[i][0] = abs(newmatrix[i-1][0] - newmatrix[i][step])
+            #tc[i][0] = tc[i-1][0] + cost[i][step]
+ 
+  
         for j in range(1, n+1):
-            tc[0][j] = tc[0][j-1] + rotatedmap[0][j+step]
-        
-        # Construct rest of the tc array
+            tc[0][j] = abs(newmatrix[0][j-1] - newmatrix[0][j+step])
+ 
+    
         for i in range(1, m+1):
             for j in range(1, n+1):
-                tc[i][j] = min(tc[i-1][j-1], tc[i-1][j], tc[i][j-1]) + rotatedmap[i][j+step]         
-                       
-        costn.append(int(tc[m][n]))        
-        #path.append(col)
-        #print (costn)
-        total=(sorted(costn))
-        best=min(costn)
-
-        r=0
-        path=[ row ]
-        row = row + r
-        if row < 0:
-            row = 0
-        if row > rows-1:
-        
-            row = rows-1
-        print (row)
-        path.append(row)
+                next_min=min(newmatrix[i-1][j-1], newmatrix[i-1][j], newmatrix[i][j-1])
+                tc[i][j] = abs(next_min - newmatrix[i][j+step])
+                #add append of abs to list
+                total_cost.append(tc[i][j])
+                #print(total_cost)
+            r=
+        totalsum.append(sum(total_cost))
+        total_cost=[]
+        for x in tc:
+            print(x)
+        return totalsum
 
         ##return (best, path)
       
