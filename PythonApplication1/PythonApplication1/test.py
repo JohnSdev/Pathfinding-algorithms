@@ -43,41 +43,110 @@ from itertools import accumulate
 def minCost(cost, m, n):
     R = 10
     C = 10
+    path=[]
+    setpath=0
 
- 
 
     tc = [[0 for x in range(C)] for x in range(R)]
-    step=1
-    tc[0][0] = cost[0][step]#col 3
-    
+ 
+    tc[0][0] = cost[0][0]
+ 
     # Initialize first column of total cost(tc) array
     for i in range(1, m+1):
-        tc[i][0] = tc[i-1][0] + cost[i][step]
+        tc[i][0] = tc[i-1][0] + cost[i][0]
  
     # Initialize first row of tc array
     for j in range(1, n+1):
-        tc[0][j] = tc[0][j-1] + cost[0][j+step]
+        tc[0][j] = tc[0][j-1] + cost[0][j]
  
     # Construct rest of the tc array
     for i in range(1, m+1):
         for j in range(1, n+1):
-            tc[i][j] = min(tc[i-1][j-1], tc[i-1][j], tc[i][j-1]) + cost[i][j+step]
+            minim=min(tc[i-1][j-1], tc[i-1][j], tc[i][j-1])
+            tc[i][j] = minim + cost[i][j]
+            if minim== tc[i-1][j-1]:
+                setpath=cost[i-1][j-1]
+            elif minim== tc[i-1][j]:
+                setpath=cost[i-1][j]
+            elif minim== tc[i][j-1]:
+                setpath=cost[i][j-1]
+            path.append(setpath)
+
+ 
+   
     for x in tc:
         print(x)
    #print (*tc)
+    print(path)
     return tc[m][n]
 
+
+
+def rec(start,row,col, map):
+    map=map
+
+    
+    if col == 7:
+        #print(path)
+        return map
+    
+    print(start[row+1][col+1],start[row][col+1],start[row-1][col+1])
+    print("Row:{} Col: {}".format(row, col))
+
+    #if ngativa
+    if row == 0:
+        
+        minim=min(start[row+1][col+1], start[row][col+1] )
+       
+    elif row == 7:
+
+        minim=min(start[row][col+1], start[row-1][col+1] )
+    else:
+        minim=min(start[row+1][col+1], start[row][col+1], start[row-1][col+1] )
+
+    print(minim)
+    if start[row+1][col+1] == minim:
+        if row >=5:
+            
+            map=rec(start, row, col+1, map+[row])
+            #print(path)
+        elif row <=0:
+            
+            map=rec(start, row, col+1, map+[row] )
+            
+        else:
+            #path.append(start[row+1][col+1])
+            map=rec(start, row+1, col+1, map+[row-1] )
+            #print(path)
+    
+    if start[row][col+1] == minim:
+        #path.append(start[row][col+1])
+        rec(start, row, col+1, map+[row])
+        #print(path)
+
+    if start[row-1][col+1] == minim:
+        if row <=0:
+            rec(start, row, col+1, map+[row] )
+           
+        else:           
+            rec(start, row-1, col+1, map+[row+1] )
+    return map
+
 # Driver program to test above functions
-cost = [[2, 1, 1, 1, 1, 1, 1, 1],
-        [2, 1, 1, 1, 1, 1, 1, 1],
-        [2, 1, 1, 1, 1, 1, 1, 1],
-        [2, 1, 1, 1, 1, 1, 1, 1],
-        [2, 1, 1, 1, 1, 1, 1, 1],
-        [2, 1, 1, 1, 1, 1, 1, 1]]
+cost = [[1, 2, 3, 4, 5, 62, 72, 1],
+        [5, 6, 7, 8, 9, 10, 11, 12],
+        [7, 8, 9, 13, 1, 1, 6, 17],
+        [10, 11, 12, 12, 1, 2, 14, 13],
+        [13, 14, 15, 1, 1, 1, 1, 1],
+        [16, 17, 18, 1, 1, 1, 1, 1],
+        [16, 17, 18, 55, 166, 661, 66, 1]]
+
+print(cost[3][0])
+map=[]
 #for x in range(0,4):
 #    print("rad:{}, costnad: {}".format(x, minCost(cost, 3, x)))
-print(minCost(cost, 5, 0), "Target is 4")
-
+#print(minCost(cost, 5, 2), "Target is 4")
+print(rec(cost, 3,0, map))
 
 # This code is contributed by Bhavya Jain
  

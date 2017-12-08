@@ -62,7 +62,7 @@ def minCost(cost, m, n):
     
     for i in range(1, m+1):
         for j in range(1, n+1):
-            next_min=min(cost[i-1][j-1], cost[i-1][j], cost[i][j-1])
+            next_min=min(cost[i-1][j-1], cost[i-1][j], cost[i-1][j+1])
             print(next_min)
             tc[i][j] = abs(next_min - cost[i][j+step])
             print(cost[i][j+step])

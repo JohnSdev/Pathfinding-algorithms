@@ -14,7 +14,7 @@ class Pathfinder:
         #         the correct answer when we get it which is a bummer.
         path=[]
         # Starting at a random position on the left:
-        for x in range(0,1):
+        for x in range(1,50):
             starting_row = x
 
             # Search for one random path:
@@ -61,7 +61,7 @@ class Pathfinder:
         C = 600
         #Point to find min cost path in array
         m=839
-        n=300
+        n=1
 
         total_cost=[]
         tc = [[0 for x in range(C)] for x in range(R)]
@@ -80,17 +80,17 @@ class Pathfinder:
     
         for i in range(1, m+1):
             for j in range(1, n+1):
-                next_min=min(newmatrix[i-1][j-1], newmatrix[i-1][j], newmatrix[i][j-1])
-                tc[i][j] = abs(next_min - newmatrix[i][j+step])
+                next_min=min(newmatrix[i-1][j-1], newmatrix[i-1][j], newmatrix[i-1][j+1])
+                tc[i][j] = abs(next_min - newmatrix[i][j+step]) + tc[i-1][j-1]
                 #add append of abs to list
-                total_cost.append(tc[i][j])
+                #total_cost.append(tc[i][j])
                 #print(total_cost)
-            r=
-        totalsum.append(sum(total_cost))
-        total_cost=[]
-        for x in tc:
-            print(x)
-        return totalsum
+            
+        #totalsum.append(sum(total_cost))
+        #total_cost=[]
+        #for x in tc:
+        #    print(x)
+        return tc[i][j]
 
         ##return (best, path)
       
