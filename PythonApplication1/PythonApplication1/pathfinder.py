@@ -102,7 +102,7 @@ class Pathfinder:
         print (row)
         path.append(row)
 
-        ##return (best, path)
+        return (best, path)
       
 
     #        total.append(sum(costn))
