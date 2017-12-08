@@ -16,10 +16,11 @@ class Pathfinder:
         # Starting at a random position on the left:
         for x in range(1,50):
             starting_row = x
-
+            matrix=self._map.getMatrix()
             # Search for one random path:
-            ( cost ) = self.minCost( starting_row )
-            print(cost)
+            #( cost ) = self.minCost( starting_row )
+            #print(cost)
+            path=self.rec(matrix, 300, 0, path)
         # It is the only path we have found, visualise it:
        # self._visualiser.addPath(path)
 
@@ -34,6 +35,59 @@ class Pathfinder:
         # TODO:  Step 2 - best greedy of all possible starting positions
         # TODO:  Step 3 - improve even more!
         return
+
+    ##Recursive func
+    def rec(self, start,row,col, path):
+        path=path
+        current_altitude = start[row][col]
+    
+        if col == 843:
+            #print(path)
+            return path
+    
+        #print(start[row+1][col+1],start[row][col+1],start[row-1][col+1])
+        #print("Row:{} Col: {}".format(row, col))
+
+        #if ngativa
+        if row == 0:
+        
+            minim=min(start[row+1][col+1], start[row][col+1] )
+       
+        elif row == 400: #Max storlek på rows -1
+
+            minim=min(start[row][col+1], start[row-1][col+1] )
+        else:
+            minim=min(start[row+1][col+1], start[row][col+1], start[row-1][col+1] )
+
+    
+        if start[row+1][col+1] == minim:
+            cost = abs()
+            if row >=5:
+            
+                return self.rec(start, row, col+1, path+[row])
+           
+            elif row+1 <=0:
+            
+                return self.rec(start, row, col+1, path+[row] )
+            
+            else:
+            
+                return self.rec(start, row+1, col+1, path+[row] )
+           
+    
+        if start[row][col+1] == minim:
+            #path.append(start[row][col+1])
+            return self.rec(start, row, col+1, path+[row])
+            #print(path)
+
+        if start[row-1][col+1] == minim:
+            if row <=0:
+                return self.rec(start, row, col+1, path+[row] )
+           
+            else:           
+                return self.rec(start, row-1, col+1, path+[row+1] )
+        return path
+
 
 
     def minCost(self, start):

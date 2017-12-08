@@ -98,38 +98,38 @@ def rec(start,row,col, map):
         
         minim=min(start[row+1][col+1], start[row][col+1] )
        
-    elif row == 7:
+    elif row == 7: #Max storlek på rows -1
 
         minim=min(start[row][col+1], start[row-1][col+1] )
     else:
         minim=min(start[row+1][col+1], start[row][col+1], start[row-1][col+1] )
 
-    print(minim)
+    
     if start[row+1][col+1] == minim:
         if row >=5:
             
-            map=rec(start, row, col+1, map+[row])
-            #print(path)
-        elif row <=0:
+            return rec(start, row, col+1, map+[row])
+           
+        elif row+1 <=0:
             
-            map=rec(start, row, col+1, map+[row] )
+            return rec(start, row, col+1, map+[row] )
             
         else:
-            #path.append(start[row+1][col+1])
-            map=rec(start, row+1, col+1, map+[row-1] )
-            #print(path)
+            
+            return rec(start, row+1, col+1, map+[row] )
+           
     
     if start[row][col+1] == minim:
         #path.append(start[row][col+1])
-        rec(start, row, col+1, map+[row])
+        return rec(start, row, col+1, map+[row])
         #print(path)
 
     if start[row-1][col+1] == minim:
         if row <=0:
-            rec(start, row, col+1, map+[row] )
+            return rec(start, row, col+1, map+[row] )
            
         else:           
-            rec(start, row-1, col+1, map+[row+1] )
+            return rec(start, row-1, col+1, map+[row+1] )
     return map
 
 # Driver program to test above functions
