@@ -70,14 +70,14 @@ def minCost(cost, m, n):
 
 # Driver program to test above functions
 cost = [[2, 1, 1, 1, 1, 1, 1, 1],
-        [2, 1, 1, 1, 1, 1, 1, 1],
-        [2, 1, 1, 1, 1, 1, 1, 1],
-        [2, 1, 1, 1, 1, 1, 1, 1],
-        [2, 1, 1, 1, 1, 1, 1, 1],
-        [2, 1, 1, 1, 1, 1, 1, 1]]
+        [2, 31, 1, 1, 1, 1, 1, 1],
+        [2, 31, 1, 1, 1, 1, 1, 1],
+        [2, 31, 1, 1, 1, 1, 1, 1],
+        [2, 31, 1, 1, 1, 1, 1, 1],
+        [2, 31, 1, 1, 1, 1, 1, 1]]
 #for x in range(0,4):
 #    print("rad:{}, costnad: {}".format(x, minCost(cost, 3, x)))
-print(minCost(cost, 5, 0), "Target is 4")
+print(minCost(cost, 5, 5), "Target is 4")
 
 
 # This code is contributed by Bhavya Jain

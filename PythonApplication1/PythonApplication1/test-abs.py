@@ -63,7 +63,7 @@ def minCost(cost, m, n):
     for i in range(1, m+1):
         for j in range(1, n+1):
             next_min=min(cost[i-1][j-1], cost[i-1][j], cost[i][j-1])
-            tc[i][j] = abs(next_min - cost[i][j+step])
+            tc[i][j] = abs(next_min - cost[i][j+step]) + tc[i-1][j-1]
             #add append of abs to list
             total_cost.append(tc[i][j])
     for x in tc:
@@ -74,14 +74,14 @@ def minCost(cost, m, n):
 
 # Driver program to test above functions
 cost = [[1, 1, 1, 1, 1, 1, 1, 1],
-        [2, 2, 2, 2, 2, 2, 2, 2],
-        [2, 1, 1, 1, 1, 1, 1, 1],
-        [2, 1, 1, 1, 1, 1, 1, 1],
-        [2, 1, 1, 1, 1, 1, 1, 1],
-        [2, 1, 1, 1, 1, 1, 1, 1]]
+        [2, 32, 2, 2, 2, 2, 2, 2],
+        [2, 31, 1, 1, 1, 1, 1, 1],
+        [2, 31, 1, 1, 1, 1, 1, 1],
+        [2, 31, 1, 1, 1, 1, 1, 1],
+        [2, 31, 1, 1, 1, 1, 1, 1]]
 #for x in range(0,4):
 #    print("rad:{}, costnad: {}".format(x, minCost(cost, 3, x)))
-print(minCost(cost, 1, 1), "Target is 4")
+print(minCost(cost, 5, 1), "Target is 4")
 
 
 # This code is contributed by Bhavya Jain
