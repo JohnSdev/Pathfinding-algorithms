@@ -1,5 +1,4 @@
 import math
-import math
 """from map import *
 
 map=[[1,13,1,1],
@@ -46,38 +45,43 @@ def minCost(cost, m, n):
     C = 10
 
  
-
+    total_cost=[]
     tc = [[0 for x in range(C)] for x in range(R)]
-    step=1
+    step=0
     tc[0][0] = cost[0][step]#col 3
     
-    # Initialize first column of total cost(tc) array
+    
     for i in range(1, m+1):
-        tc[i][0] = tc[i-1][0] + cost[i][step]
+        tc[i][0] = abs(cost[i-1][0] - cost[i][step])
+        #tc[i][0] = tc[i-1][0] + cost[i][step]
  
-    # Initialize first row of tc array
+  
     for j in range(1, n+1):
-        tc[0][j] = tc[0][j-1] + cost[0][j+step]
+        tc[0][j] = abs(cost[0][j-1] - cost[0][j+step])
  
-    # Construct rest of the tc array
+    
     for i in range(1, m+1):
         for j in range(1, n+1):
-            tc[i][j] = min(tc[i-1][j-1], tc[i-1][j], tc[i][j-1]) + cost[i][j+step]
+            next_min=min(cost[i-1][j-1], cost[i-1][j], cost[i][j-1])
+            tc[i][j] = abs(next_min - cost[i][j+step])
+            #add append of abs to list
+            total_cost.append(tc[i][j])
     for x in tc:
         print(x)
    #print (*tc)
+    print(sum(total_cost))
     return tc[m][n]
 
 # Driver program to test above functions
-cost = [[2, 1, 1, 1, 1, 1, 1, 1],
-        [2, 1, 1, 1, 1, 1, 1, 1],
+cost = [[1, 1, 1, 1, 1, 1, 1, 1],
+        [2, 2, 2, 2, 2, 2, 2, 2],
         [2, 1, 1, 1, 1, 1, 1, 1],
         [2, 1, 1, 1, 1, 1, 1, 1],
         [2, 1, 1, 1, 1, 1, 1, 1],
         [2, 1, 1, 1, 1, 1, 1, 1]]
 #for x in range(0,4):
 #    print("rad:{}, costnad: {}".format(x, minCost(cost, 3, x)))
-print(minCost(cost, 5, 0), "Target is 4")
+print(minCost(cost, 1, 1), "Target is 4")
 
 
 # This code is contributed by Bhavya Jain
