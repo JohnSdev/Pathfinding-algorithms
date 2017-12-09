@@ -13,22 +13,32 @@ class Pathfinder:
         #   NOTE: Since problem is NP-hard - we won't know for sure that it is
         #         the correct answer when we get it which is a bummer.
         path=[]
+        costlista=0
+        lista=[]
         # Starting at a random position on the left:
-        for x in range(1,50):
-            starting_row = x
+        for i in range(0,100):
+
+            starting_row = i
             matrix=self._map.getMatrix()
+            
             # Search for one random path:
             #( cost ) = self.minCost( starting_row )
-            #print(cost)
-            path=self.rec(matrix, 300, 0, path)
-        # It is the only path we have found, visualise it:
-       # self._visualiser.addPath(path)
+            
 
-        # The only path so it must also be the best path, visualise that:
-            self._visualiser.setBestPath(path)
+            (path, cost)  = self.rec(matrix,i, 0, path, costlista)
+            lista.append(cost)
+            #print(sum(costa))
+            
+            # It is the only path we have found, visualise it:
+        #self._visualiser.addPath(path)
 
-        # And the cost of this so called "best" path:
-            self._visualiser.setBestPathCost( cost )
+            # The only path so it must also be the best path, visualise that:
+        self._visualiser.setBestPath(path)
+
+        #And the cost of this so called "best" path:
+        print(min(lista))
+        self._visualiser.setBestPathCost( min(lista) )
+     
 
         # What next?  Can you do better than random?
         # TODO:  Step 1 - a greeedy algorithm from a random starting position
@@ -37,13 +47,102 @@ class Pathfinder:
         return
 
     ##Recursive func
-    def rec(self, start,row,col, path):
+    def rec(self, start,row,col, path, accu):
+        
+        costa=accu
         path=path
-        current_altitude = start[row][col]
-    
+        #print(costa)
+        """
+        if col == 834:
+            return (path, costa)
+        if col >= 840:
+            #if ngativa
+            if row == 0:
+        
+                minim=min(start[row+1][col+1], start[row][col+1] )
+       
+            elif row == 400: #Max storlek på rows -1
+
+                minim=min(start[row][col+1], start[row-1][col+1] )
+            else:
+                minim=min(start[row+1][col+1], start[row][col+1], start[row-1][col+1] )
+
+            #DownFwd
+            if start[row+1][col+1] == minim:
+            
+                if row >400:
+                    costa+=abs(start[row][col] - start[row][col+1])
+                    return self.rec(start, row, col+1, path+[row],costa)
+           
+                elif row+1 <=0:
+                    costa+=abs(start[row][col] - start[row][col+1])
+                    return self.rec(start, row, col+1, path+[row], costa )
+            
+                else:
+                    costa+=abs(start[row][col] - start[row+1][col+1])
+                    return self.rec(start, row+1, col+1, path+[row], costa )
+           
+            #Fwd
+            if start[row][col+1] == minim:
+                #path.append(start[row][col+1])
+                costa+=abs(start[row][col] - start[row][col+1])
+                return self.rec(start, row, col+1, path+[row], costa)
+                #print(path)
+
+            #UppFwd
+            if start[row-1][col+1] == minim:
+                if row <=0:
+                    costa+=abs(start[row][col] - start[row][col+1])
+                    print(costlist)
+                    return self.rec(start, row, col+1, path+[row], costa )
+           
+                else:
+                    costa+=abs(start[row][col] - start[row-1][col+1])
+                
+                    return self.rec(start, row-1, col+1, path+[row+1], costa )
+            
+
+        
+        buffermin_dwn=abs(start[row+1][col+1] - start[row][col])
+        buffermin_up=abs(start[row-1][col+1] - start[row][col])
+        buffermin_fwd=abs(start[row][col+1] - start[row][col])
+        buffermin=min(buffermin_fwd, buffermin_up, buffermin_dwn)
+
+            
+        #dwnfwd
+        if buffermin == buffermin_dwn:
+            if row >400:
+                costa+=abs(start[row][col] - start[row][col+1])
+                return self.rec(start, row, col+1, path+[row],costa)
+           
+            elif row+1 <=0:
+                costa+=abs(start[row][col] - start[row][col+1])
+                return self.rec(start, row, col+1, path+[row], costa )
+            
+            else:
+                costa+=abs(start[row][col] - start[row+1][col+1])
+                return self.rec(start, row+1, col+1, path+[row], costa )
+
+        #Fwd
+        if buffermin == buffermin_fwd:
+            costa+=abs(start[row][col] - start[row][col+1])
+            return self.rec(start, row, col+1, path+[row], costa)
+               
+
+        #UppFwd
+        if buffermin == buffermin_up:
+            if row <=0:
+                costa+=abs(start[row][col] - start[row][col+1])
+                return self.rec(start, row, col+1, path+[row], costa )
+           
+            else:
+                costa+=abs(start[row][col] - start[row-1][col+1])      
+                return self.rec(start, row-1, col+1, path+[row+1], costa )
+        return (path, costa)    
+        ####
+        """
         if col == 843:
-            #print(path)
-            return path
+            return (path, costa)
     
         #print(start[row+1][col+1],start[row][col+1],start[row-1][col+1])
         #print("Row:{} Col: {}".format(row, col))
@@ -53,40 +152,48 @@ class Pathfinder:
         
             minim=min(start[row+1][col+1], start[row][col+1] )
        
-        elif row == 400: #Max storlek på rows -1
+        elif row == 478: #Max storlek på rows -1
 
             minim=min(start[row][col+1], start[row-1][col+1] )
         else:
             minim=min(start[row+1][col+1], start[row][col+1], start[row-1][col+1] )
 
-    
+        #DownFwd
         if start[row+1][col+1] == minim:
-            cost = abs()
-            if row >=5:
             
-                return self.rec(start, row, col+1, path+[row])
+            if row >400:
+                costa+=abs(start[row][col] - start[row][col+1])
+                return self.rec(start, row, col+1, path+[row],costa)
            
             elif row+1 <=0:
-            
-                return self.rec(start, row, col+1, path+[row] )
+                costa+=abs(start[row][col] - start[row][col+1])
+                return self.rec(start, row, col+1, path+[row], costa )
             
             else:
-            
-                return self.rec(start, row+1, col+1, path+[row] )
+                costa+=abs(start[row][col] - start[row+1][col+1])
+                return self.rec(start, row+1, col+1, path+[row], costa )
            
-    
+        #Fwd
         if start[row][col+1] == minim:
             #path.append(start[row][col+1])
-            return self.rec(start, row, col+1, path+[row])
+            costa+=abs(start[row][col] - start[row][col+1])
+            return self.rec(start, row, col+1, path+[row], costa)
             #print(path)
 
+        #UppFwd
         if start[row-1][col+1] == minim:
             if row <=0:
-                return self.rec(start, row, col+1, path+[row] )
+                costa+=abs(start[row][col] - start[row][col+1])
+                print(costlist)
+                return self.rec(start, row, col+1, path+[row], costa )
            
-            else:           
-                return self.rec(start, row-1, col+1, path+[row+1] )
-        return path
+            else:
+                costa+=abs(start[row][col] - start[row-1][col+1])
+                
+                return self.rec(start, row-1, col+1, path+[row+1], costa )
+                
+        
+        return  path
 
 
 
