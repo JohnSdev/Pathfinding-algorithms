@@ -16,7 +16,7 @@ class Pathfinder:
         costlista=0
         lista=[]
         # Starting at a random position on the left:
-        for i in range(0,100):
+        for i in range(5,7):
 
             starting_row = i
             matrix=self._map.getMatrix()
@@ -37,6 +37,7 @@ class Pathfinder:
 
         #And the cost of this so called "best" path:
         print(min(lista))
+        print(lista)
         self._visualiser.setBestPathCost( min(lista) )
      
 
@@ -111,7 +112,7 @@ class Pathfinder:
             
         #dwnfwd
         if buffermin == buffermin_dwn:
-            if row >400:
+            if row >478:
                 costa+=abs(start[row][col] - start[row][col+1])
                 return self.rec(start, row, col+1, path+[row],costa)
            
@@ -141,9 +142,10 @@ class Pathfinder:
         return (path, costa)    
         ####
         """
+ #######################################################################################          
         if col == 843:
             return (path, costa)
-    
+        print(col)
         #print(start[row+1][col+1],start[row][col+1],start[row-1][col+1])
         #print("Row:{} Col: {}".format(row, col))
 
@@ -161,7 +163,7 @@ class Pathfinder:
         #DownFwd
         if start[row+1][col+1] == minim:
             
-            if row >400:
+            if row >470:
                 costa+=abs(start[row][col] - start[row][col+1])
                 return self.rec(start, row, col+1, path+[row],costa)
            
@@ -194,7 +196,7 @@ class Pathfinder:
                 
         
         return  path
-
+        
 
 
     def minCost(self, start):
