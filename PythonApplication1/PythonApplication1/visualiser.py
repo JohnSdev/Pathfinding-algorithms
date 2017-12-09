@@ -47,8 +47,9 @@ class Visualiser:
         if self._paths:
             for path in self._paths:
                 for col in range(self._width):
-                    print (path[col])
+                    
                     row = path[col]
+                    #print (row)
                     h = (255, 0, 0)
                     self._screen.set_at((col, row), h)
 
@@ -84,7 +85,7 @@ class Visualiser:
             self.drawPaths()
             self.drawBestPath()
             self.drawBestPathCost()
-
+            
             pygame.display.update()
 
         pygame.quit()

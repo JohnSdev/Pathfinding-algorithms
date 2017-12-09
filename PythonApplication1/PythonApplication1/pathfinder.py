@@ -13,10 +13,12 @@ class Pathfinder:
         #   NOTE: Since problem is NP-hard - we won't know for sure that it is
         #         the correct answer when we get it which is a bummer.
         path=[]
+        pathlista=[]
         costlista=0
-        lista=[]
+        costlist=[]
+        emptypath=[]
         # Starting at a random position on the left:
-        for i in range(5,7):
+        for i in range(5,9):
 
             starting_row = i
             matrix=self._map.getMatrix()
@@ -25,20 +27,39 @@ class Pathfinder:
             #( cost ) = self.minCost( starting_row )
             
 
-            (path, cost)  = self.rec(matrix,i, 0, path, costlista)
-            lista.append(cost)
+            (path, cost)  = self.rec(matrix,i, 0, emptypath, costlista)
+            costlist.append(cost)
+            path.extend([0])
+            pathlista.append(path)
+           
             #print(sum(costa))
-            
+            self._visualiser.addPath(path)
             # It is the only path we have found, visualise it:
-        #self._visualiser.addPath(path)
+        
+        
+        print("length 1:{}  2: {}".format(len(pathlista[0]), len(pathlista[1])))  
+        
+        for x in range(len(pathlista[0])):
 
-            # The only path so it must also be the best path, visualise that:
-        self._visualiser.setBestPath(path)
+            print(pathlista[0][x], pathlista[1][x],"\n")
+        print(pathlista[1])
+        #Draw other paths
 
+        
+            
+        
+        #Calculate best path to draw
+        bestpath=min(costlist)
+        
+        for x in range(len(costlist)):
+            if costlist[x] == bestpath:
+                self._visualiser.setBestPath(pathlista[1])
+                
+        
+        
         #And the cost of this so called "best" path:
-        print(min(lista))
-        print(lista)
-        self._visualiser.setBestPathCost( min(lista) )
+        print("Least cost in m: ", min(costlist))
+        self._visualiser.setBestPathCost( min(costlist) )
      
 
         # What next?  Can you do better than random?
@@ -145,20 +166,38 @@ class Pathfinder:
  #######################################################################################          
         if col == 843:
             return (path, costa)
-        print(col)
         #print(start[row+1][col+1],start[row][col+1],start[row-1][col+1])
         #print("Row:{} Col: {}".format(row, col))
 
-        #if ngativa
+        #If position is att top most
         if row == 0:
-        
+            #if start[row+1][col+1] == (start[row][col+1]): #Id next are equal, randomize
+            #    minim=min(start[row+2][col+2], start[row][col+2] )
+            #else:
             minim=min(start[row+1][col+1], start[row][col+1] )
-       
-        elif row == 478: #Max storlek på rows -1
+
+        #If postiton is at bottom
+        elif row == 478: 
+            #if start[row+1][col+1] == (start[row][col+1]): #Id next are equal, randomize
+            #    minim=min(start[row][col+2], start[row-2][col+2] )
+            #else:
 
             minim=min(start[row][col+1], start[row-1][col+1] )
+
+        
+        
+            
+        #If position is not top/bottom
         else:
             minim=min(start[row+1][col+1], start[row][col+1], start[row-1][col+1] )
+        
+
+        #Fwd
+        if start[row][col+1] == minim:
+            #path.append(start[row][col+1])
+            costa+=abs(start[row][col] - start[row][col+1])
+            return self.rec(start, row, col+1, path+[row], costa)
+            #print(path)
 
         #DownFwd
         if start[row+1][col+1] == minim:
@@ -175,12 +214,7 @@ class Pathfinder:
                 costa+=abs(start[row][col] - start[row+1][col+1])
                 return self.rec(start, row+1, col+1, path+[row], costa )
            
-        #Fwd
-        if start[row][col+1] == minim:
-            #path.append(start[row][col+1])
-            costa+=abs(start[row][col] - start[row][col+1])
-            return self.rec(start, row, col+1, path+[row], costa)
-            #print(path)
+
 
         #UppFwd
         if start[row-1][col+1] == minim:
