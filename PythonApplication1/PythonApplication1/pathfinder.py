@@ -17,7 +17,7 @@ class Pathfinder:
         costlista=0
         costlist=[]
         emptypath=[]
-        buffer=9 #Set Radar buffer, aka look ahead if either of next col is equal. 
+        buffer=100 #Set Radar buffer, aka look ahead if either of next col is equal. 
 
         # Starting at a random position on the left:
         for i in range(0,477):
@@ -187,6 +187,11 @@ class Pathfinder:
         FwdUBuffer=start[row-3][col+buffer]
         FwdSBuffer=start[row][col+buffer]
         FwdDBuffer=start[row+3][col+buffer]
+
+        buffermin_upp=abs(FwdUBuffer - start[row][col])
+        buffermin_dwn=abs(FwdDBuffer - start[row][col])
+        buffermin_fwd=abs(FwdSBuffer - start[row][col])
+        buffermin=min(buffermin_fwd, buffermin_up, buffermin_dwn)        
         
         
         radarchoice=None #What the radar has selected -1, 0, 1
