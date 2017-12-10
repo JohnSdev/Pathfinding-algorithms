@@ -141,12 +141,15 @@ cost = [[1, 2, 3, 4, 5, 62, 72, 1],
         [16, 17, 18, 1, 1, 1, 1, 1],
         [16, 17, 18, 55, 166, 661, 66, 1]]
 
-print(cost[3][0])
-map=[]
+#print(cost[3][0])
+#map=[]
 #for x in range(0,4):
 #    print("rad:{}, costnad: {}".format(x, minCost(cost, 3, x)))
 #print(minCost(cost, 5, 2), "Target is 4")
-print(rec(cost, 3,0, map))
+#print(rec(cost, 3,0, map))
+buffer=1
+col=0
+print(cost[col+buffer])
 
 # This code is contributed by Bhavya Jain
  

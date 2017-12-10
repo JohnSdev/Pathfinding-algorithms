@@ -17,9 +17,11 @@ class Pathfinder:
         costlista=0
         costlist=[]
         emptypath=[]
-        # Starting at a random position on the left:
-        for i in range(5,9):
+        buffer=9 #Set Radar buffer, aka look ahead if either of next col is equal. 
 
+        # Starting at a random position on the left:
+        for i in range(0,477):
+            
             starting_row = i
             matrix=self._map.getMatrix()
             
@@ -27,7 +29,7 @@ class Pathfinder:
             #( cost ) = self.minCost( starting_row )
             
 
-            (path, cost)  = self.rec(matrix,i, 0, emptypath, costlista)
+            (path, cost)  = self.rec(matrix,i, 0, emptypath, costlista, buffer)
             costlist.append(cost)
             path.extend([0])
             pathlista.append(path)
@@ -53,13 +55,16 @@ class Pathfinder:
         
         for x in range(len(costlist)):
             if costlist[x] == bestpath:
-                self._visualiser.setBestPath(pathlista[1])
+                self._visualiser.setBestPath(pathlista[x])
                 
         
         
         #And the cost of this so called "best" path:
+        print(sorted(costlist))
         print("Least cost in m: ", min(costlist))
+        
         self._visualiser.setBestPathCost( min(costlist) )
+        
      
 
         # What next?  Can you do better than random?
@@ -69,11 +74,12 @@ class Pathfinder:
         return
 
     ##Recursive func
-    def rec(self, start,row,col, path, accu):
+    def rec(self, start,row,col, path, accu, buffer):
         
         costa=accu
         path=path
-        #print(costa)
+        #buffer=buffer
+        
         """
         if col == 834:
             return (path, costa)
@@ -81,159 +87,201 @@ class Pathfinder:
             #if ngativa
             if row == 0:
         
-                minim=min(start[row+1][col+1], start[row][col+1] )
+                minim=min(FwdU, FwdS )
        
-            elif row == 400: #Max storlek på rows -1
+            elif row == 400: #min storlek på rows -1
 
-                minim=min(start[row][col+1], start[row-1][col+1] )
+                minim=min(FwdS, FwdD )
             else:
-                minim=min(start[row+1][col+1], start[row][col+1], start[row-1][col+1] )
+                minim=min(FwdU, FwdS, FwdD )
 
             #DownFwd
-            if start[row+1][col+1] == minim:
+            if FwdU == minim:
             
                 if row >400:
-                    costa+=abs(start[row][col] - start[row][col+1])
+                    costa+=abs(start[row][col] - FwdS)
                     return self.rec(start, row, col+1, path+[row],costa)
            
                 elif row+1 <=0:
-                    costa+=abs(start[row][col] - start[row][col+1])
+                    costa+=abs(start[row][col] - FwdS)
                     return self.rec(start, row, col+1, path+[row], costa )
             
                 else:
-                    costa+=abs(start[row][col] - start[row+1][col+1])
+                    costa+=abs(start[row][col] - FwdU)
                     return self.rec(start, row+1, col+1, path+[row], costa )
            
             #Fwd
-            if start[row][col+1] == minim:
-                #path.append(start[row][col+1])
-                costa+=abs(start[row][col] - start[row][col+1])
+            if FwdS == minim:
+                #path.append(FwdS)
+                costa+=abs(start[row][col] - FwdS)
                 return self.rec(start, row, col+1, path+[row], costa)
                 #print(path)
 
             #UppFwd
-            if start[row-1][col+1] == minim:
+            if FwdD == minim:
                 if row <=0:
-                    costa+=abs(start[row][col] - start[row][col+1])
+                    costa+=abs(start[row][col] - FwdS)
                     print(costlist)
                     return self.rec(start, row, col+1, path+[row], costa )
            
                 else:
-                    costa+=abs(start[row][col] - start[row-1][col+1])
+                    costa+=abs(start[row][col] - FwdD)
                 
                     return self.rec(start, row-1, col+1, path+[row+1], costa )
             
 
         
-        buffermin_dwn=abs(start[row+1][col+1] - start[row][col])
-        buffermin_up=abs(start[row-1][col+1] - start[row][col])
-        buffermin_fwd=abs(start[row][col+1] - start[row][col])
+        buffermin_dwn=abs(FwdU - start[row][col])
+        buffermin_up=abs(FwdD - start[row][col])
+        buffermin_fwd=abs(FwdS - start[row][col])
         buffermin=min(buffermin_fwd, buffermin_up, buffermin_dwn)
 
             
         #dwnfwd
         if buffermin == buffermin_dwn:
             if row >478:
-                costa+=abs(start[row][col] - start[row][col+1])
+                costa+=abs(start[row][col] - FwdS)
                 return self.rec(start, row, col+1, path+[row],costa)
            
             elif row+1 <=0:
-                costa+=abs(start[row][col] - start[row][col+1])
+                costa+=abs(start[row][col] - FwdS)
                 return self.rec(start, row, col+1, path+[row], costa )
             
             else:
-                costa+=abs(start[row][col] - start[row+1][col+1])
+                costa+=abs(start[row][col] - FwdU)
                 return self.rec(start, row+1, col+1, path+[row], costa )
 
         #Fwd
         if buffermin == buffermin_fwd:
-            costa+=abs(start[row][col] - start[row][col+1])
+            costa+=abs(start[row][col] - FwdS)
             return self.rec(start, row, col+1, path+[row], costa)
                
 
         #UppFwd
         if buffermin == buffermin_up:
             if row <=0:
-                costa+=abs(start[row][col] - start[row][col+1])
+                costa+=abs(start[row][col] - FwdS)
                 return self.rec(start, row, col+1, path+[row], costa )
            
             else:
-                costa+=abs(start[row][col] - start[row-1][col+1])      
+                costa+=abs(start[row][col] - FwdD)      
                 return self.rec(start, row-1, col+1, path+[row+1], costa )
         return (path, costa)    
         ####
         """
  #######################################################################################          
+        if col == 843-buffer:
+            buffer=buffer-1
         if col == 843:
             return (path, costa)
-        #print(start[row+1][col+1],start[row][col+1],start[row-1][col+1])
+        #print(FwdU,FwdS,FwdD)
         #print("Row:{} Col: {}".format(row, col))
 
         #If position is att top most 
-        radarchoice=0
+        FwdU=start[row-1][col+1]
+        FwdS=start[row][col+1]
+        FwdD=start[row+1][col+1]
+
+        #Set how far the Radar will look
+        
+        FwdUBuffer=start[row-3][col+buffer]
+        FwdSBuffer=start[row][col+buffer]
+        FwdDBuffer=start[row+3][col+buffer]
+        
+        
+        radarchoice=None #What the radar has selected -1, 0, 1
+
+        #If position is at top dont look above matix
         if row == 0:
-            if start[row+1][col+1] == start[row][col+1]: #Id next are equal, check 5 seps ahead
-                radarchoice=min(start[row+2][col+5], start[row][col+5] #Check 5 step ahead and set next row to it.
-                if radarchoice==start[row+2][col+5]:
-                    minim=start[row+1][col+1]
+            if FwdU == FwdS: #Id next are equal, Use radar buffer
+                radarchoice=min(FwdSBuffer, FwdDBuffer) #
+                if radarchoice==FwdSBuffer:
+                    minim=FwdS
                 else:
-                    minim==start[row][col+1]
+                    minim=FwdD
 
             else:
-            minim=min(start[row+1][col+1], start[row][col+1] )
+                minim=min(FwdD, FwdS )
 
-        #If postiton is at bottom
+        #If postiton is at bottom, dont look past max limit.
         elif row == 478: 
-            #if start[row+1][col+1] == (start[row][col+1]): #Id next are equal, randomize
-            #    minim=min(start[row][col+2], start[row-2][col+2] )
-            #else:
+            if FwdU == FwdS: 
+                radarchoice=min(FwdUBuffer, FwdSBuffer )
+                if radarchoice==FwdUBuffer:
+                    minim=FwdU
+                else:
+                    minim==FwdS
+           
 
-            minim=min(start[row][col+1], start[row-1][col+1] )
+            
 
         
         
             
-        #If position is not top/bottom
+        #If position is not top/bottom, aka normal run
+        #Check for equals and activate radar if nedded
         else:
-            minim=min(start[row+1][col+1], start[row][col+1], start[row-1][col+1] )
+            if FwdU == FwdS: 
+                radarchoice=min(FwdUBuffer, FwdSBuffer )
+                if radarchoice==FwdUBuffer:
+                    minim=min(FwdU, FwdD)
+                else:
+                    minim=min(FwdS, FwdD)
+
+            if FwdU == FwdD:
+                radarchoice=min(FwdUBuffer, FwdDBuffer )
+                if radarchoice==FwdUBuffer:
+                    minim=min(FwdU, FwdS)
+                else:
+                    minim=min(FwdD, FwdS)
+
+            if FwdD == FwdS:
+
+                radarchoice=min(FwdDBuffer, FwdSBuffer )
+                if radarchoice==FwdDBuffer:
+                    minim=min(FwdD, FwdU)
+                else:
+                    minim=min(FwdS, FwdU)
+            else:
+                minim=min(FwdS, FwdU, FwdD)
         
 
-        #Fwd
-        if start[row][col+1] == minim:
-            #path.append(start[row][col+1])
-            costa+=abs(start[row][col] - start[row][col+1])
-            return self.rec(start, row, col+1, path+[row], costa)
-            #print(path)
+        #FwdUpp
+        if FwdU == minim:
+            if row <=0:
+                costa+=abs(start[row][col] - FwdS)
+                #print(costlist)
+                return self.rec(start, row, col+1, path+[row], costa, buffer )
+           
+            else:
+                costa+=abs(start[row][col] - FwdU)
+                
+                return self.rec(start, row-1, col+1, path+[row], costa, buffer )
+
 
         #DownFwd
-        if start[row+1][col+1] == minim:
+        if FwdD == minim:
             
-            if row >470:
-                costa+=abs(start[row][col] - start[row][col+1])
-                return self.rec(start, row, col+1, path+[row],costa)
+            if row >474:
+                costa+=abs(start[row][col] - FwdS)
+                return self.rec(start, row, col+1, path+[row],costa, buffer)
            
             elif row+1 <=0:
-                costa+=abs(start[row][col] - start[row][col+1])
-                return self.rec(start, row, col+1, path+[row], costa )
+                costa+=abs(start[row][col] - FwdS)
+                return self.rec(start, row, col+1, path+[row], costa, buffer )
             
             else:
-                costa+=abs(start[row][col] - start[row+1][col+1])
-                return self.rec(start, row+1, col+1, path+[row], costa )
+                costa+=abs(start[row][col] - FwdD)
+                return self.rec(start, row+1, col+1, path+[row], costa, buffer )
            
 
 
-        #UppFwd
-        if start[row-1][col+1] == minim:
-            if row <=0:
-                costa+=abs(start[row][col] - start[row][col+1])
-                print(costlist)
-                return self.rec(start, row, col+1, path+[row], costa )
-           
-            else:
-                costa+=abs(start[row][col] - start[row-1][col+1])
-                
-                return self.rec(start, row-1, col+1, path+[row+1], costa )
-                
+        #Fwd
+        if FwdS == minim:
+            #path.append(FwdS)
+            costa+=abs(start[row][col] - FwdS)
+            return self.rec(start, row, col+1, path+[row], costa, buffer)
+            #print(path)                
         
         return  path
         
