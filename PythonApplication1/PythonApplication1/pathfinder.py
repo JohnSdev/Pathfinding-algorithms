@@ -169,11 +169,17 @@ class Pathfinder:
         #print(start[row+1][col+1],start[row][col+1],start[row-1][col+1])
         #print("Row:{} Col: {}".format(row, col))
 
-        #If position is att top most
+        #If position is att top most 
+        radarchoice=0
         if row == 0:
-            #if start[row+1][col+1] == (start[row][col+1]): #Id next are equal, randomize
-            #    minim=min(start[row+2][col+2], start[row][col+2] )
-            #else:
+            if start[row+1][col+1] == start[row][col+1]: #Id next are equal, check 5 seps ahead
+                radarchoice=min(start[row+2][col+5], start[row][col+5] #Check 5 step ahead and set next row to it.
+                if radarchoice==start[row+2][col+5]:
+                    minim=start[row+1][col+1]
+                else:
+                    minim==start[row][col+1]
+
+            else:
             minim=min(start[row+1][col+1], start[row][col+1] )
 
         #If postiton is at bottom
