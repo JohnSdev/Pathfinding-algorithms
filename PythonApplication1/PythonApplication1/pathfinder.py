@@ -20,7 +20,7 @@ class Pathfinder:
         buffer=1 #Set Radar buffer, aka look ahead if either of next col is equal. 
 
         # Starting at a random position on the left:
-        for i in range(0,477):
+        for i in range(5,7):
             
             starting_row = i
             matrix=self._map.getMatrix()
@@ -41,9 +41,7 @@ class Pathfinder:
         
         print("length 1:{}  2: {}".format(len(pathlista[0]), len(pathlista[1])))  
         
-        for x in range(len(pathlista[0])):
 
-            print(pathlista[0][x], pathlista[1][x],"\n")
         print(pathlista[1])
         #Draw other paths
 
@@ -178,7 +176,7 @@ class Pathfinder:
         if col == 843:
             return (path, costa)
         #print(FwdU,FwdS,FwdD)
-        #print("Row:{} Col: {}".format(row, col))
+        print("Row:{} Col: {}, cost: {}".format(row, col, costa))
 
         #If position is att top most 
         FwdU=start[row-1][col+1]
