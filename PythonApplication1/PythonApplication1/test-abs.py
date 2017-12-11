@@ -1,4 +1,6 @@
 import math
+from bresenham import bresenham
+
 """from map import *
 
 map=[[1,13,1,1],
@@ -83,15 +85,36 @@ cost = [[1, 1, 1, 1, 1, 1, 1, 1],
         [2, 1, 1, 1, 1, 1, 1, 1]]
 #for x in range(0,4):
 #    print("rad:{}, costnad: {}".format(x, minCost(cost, 3, x)))
-print(minCost(cost, 5,4), "Target is 4")
+
+#print(minCost(cost, 5,4), "Target is 4")
+a=list(bresenham(0, 0, 4, 3))
+b=[]
+for x in a:
+    
+    b.append(list(x))
+
+costa=0
+print(b)
+
+best=0
+
+for steps in range(len(b)-1):
+    (row,col) = b[steps]
+    (row2,col2) = b[steps+1]
+    best+=abs(cost[row][col] - cost[row2][col2])
+
+print(best)
+     
+        
+
+    
+        
+        
 
 
-# This code is contributed by Bhavya Jain
+
+
  
-#print(cost)
-#new=list(zip(*cost))[::-1]
-#new = list(map(list, new))
-#print(new)
 
 [[1, 1, 5], 
  [7, 7, 0], 

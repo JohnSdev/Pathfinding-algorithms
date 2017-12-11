@@ -1,5 +1,6 @@
 import sys, math, random
 from statistics import mean, median
+from bresenham import bresenham
 
 class Pathfinder:
     def __init__(self, visualiser, map):
@@ -20,8 +21,11 @@ class Pathfinder:
         emptypath=[]
         buffer=9 #Set Radar buffer, aka look ahead if either of next col is equal. 
 
+
+
+
         # Starting at a random position on the left:
-        for i in range(0,100,1):
+        for i in range(0,10,1):
             
             starting_row = i
             matrix=self._map.getMatrix()
@@ -71,6 +75,33 @@ class Pathfinder:
         # TODO:  Step 2 - best greedy of all possible starting positions
         # TODO:  Step 3 - improve even more!
         return
+
+
+    #Recursive radar draft
+    def recRadar(self, grid  row , col, path, accu, buffer):
+
+        deg90=list(bresenham(row, col, row, col+buffer))
+        b=[]
+        for x in a:
+            b.append(list(x))
+
+        costadd=accu
+        if col == 843-buffer:
+            buffer=buffer-1
+        if row == 479-buffer:
+            maxrow=maxrow-1
+        if col == 843:
+            return (path, costa)
+
+        best=0
+
+        for steps in range(len(deg90)-1):
+        (row,col) = b[steps]
+        (row2,col2) = b[steps+1]
+        best+=abs(cost[row][col] - cost[row2][col2])
+
+
+
 
     ##Recursive func
     def rec(self, start,row,col, path, accu, buffer):
@@ -272,19 +303,21 @@ class Pathfinder:
 
         #DownFwd
         #Test maxdrop check
+
         if FwdD == minim:
-            
-            if row >474:
-                costa+=abs(start[row][col] - FwdS)
-                return self.rec(start, row, col+1, path+[row],costa, buffer)
+
+
+                if row >474:
+                    costa+=abs(start[row][col] - FwdS)
+                    return self.rec(start, row, col+1, path+[row],costa, buffer)
            
-            elif row+1 <=0:
-                costa+=abs(start[row][col] - FwdS)
-                return self.rec(start, row, col+1, path+[row], costa, buffer )
+                elif row+1 <=0:
+                    costa+=abs(start[row][col] - FwdS)
+                    return self.rec(start, row, col+1, path+[row], costa, buffer )
             
-            else:
-                costa+=abs(start[row][col] - FwdD)
-                return self.rec(start, row+1, col+1, path+[row], costa, buffer )
+                else:
+                    costa+=abs(start[row][col] - FwdD)
+                    return self.rec(start, row+1, col+1, path+[row], costa, buffer )
            
 
 
