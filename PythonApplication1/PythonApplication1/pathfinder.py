@@ -1,4 +1,5 @@
 import sys, math, random
+from statistics import mean, median
 
 class Pathfinder:
     def __init__(self, visualiser, map):
@@ -17,10 +18,10 @@ class Pathfinder:
         costlista=0
         costlist=[]
         emptypath=[]
-        buffer=1 #Set Radar buffer, aka look ahead if either of next col is equal. 
+        buffer=9 #Set Radar buffer, aka look ahead if either of next col is equal. 
 
         # Starting at a random position on the left:
-        for i in range(5,7):
+        for i in range(0,100,1):
             
             starting_row = i
             matrix=self._map.getMatrix()
@@ -249,8 +250,11 @@ class Pathfinder:
                 else:
                     minim=min(FwdS, FwdU)
             else:
-                minim=min(FwdS, FwdU, FwdD)
- 
+                minim=min(FwdD, FwdS, FwdU)
+                #temp=[FwdS, FwdD, FwdU]
+                #minim=median(temp)
+                
+                ################
 
 
         #FwdUpp
