@@ -17,7 +17,7 @@ class Pathfinder:
         costlista=0
         costlist=[]
         emptypath=[]
-        buffer=4 #Set Radar buffer, aka look ahead if either of next col is equal. 
+        buffer=1 #Set Radar buffer, aka look ahead if either of next col is equal. 
 
         # Starting at a random position on the left:
         for i in range(0,477):
