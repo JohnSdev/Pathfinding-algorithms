@@ -191,7 +191,7 @@ class Pathfinder:
         buffermin_upp=abs(FwdUBuffer - start[row][col])
         buffermin_dwn=abs(FwdDBuffer - start[row][col])
         buffermin_fwd=abs(FwdSBuffer - start[row][col])
-        buffermin=min(buffermin_fwd, buffermin_up, buffermin_dwn)        
+        #buffermin=min(buffermin_fwd, buffermin_up, buffermin_dwn)        
         
         
         radarchoice=None #What the radar has selected -1, 0, 1
