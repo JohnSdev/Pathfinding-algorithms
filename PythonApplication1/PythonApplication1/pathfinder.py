@@ -14,7 +14,7 @@ class Pathfinder:
         #         the correct answer when we get it which is a bummer.
 
         # Starting at a random position on the left:
-        for x in range(0,20):
+        for x in range(5,7):
             starting_row = x
 
             # Search for one random path:
