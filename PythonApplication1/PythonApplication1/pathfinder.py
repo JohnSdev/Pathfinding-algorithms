@@ -65,7 +65,7 @@ class Pathfinder:
         
         self._visualiser.setBestPathCost( min(costlist) )
 
-        self.recRadar(matrix, 0 , 0, path, costlista, buffer)
+        self.recRadar(matrix, 100 , 0, path, costlista, buffer)
         
      
 
@@ -77,16 +77,11 @@ class Pathfinder:
 
 
     #Recursive radar draft
-    def recRadar(self, grid,  row , col, path, accu, buffer):
-        cost=accu
-        degupp=list(bresenham(row, col, row+5, col+buffer))
-        deg90=list(bresenham(row, col, row, col+buffer))
-        degdwn=list(bresenham(row, col, row+5, col+buffer))
-        b=[]
-        for x in b:
-            b.append(list(x))
 
-        costadd=accu
+    def recRadar(self, grid,  row , col, path, accu, buffer):
+        path=path
+        cost=accu
+
         if col == 843-buffer:
             buffer=buffer-1
         if row == 479-buffer:
@@ -94,22 +89,68 @@ class Pathfinder:
         if col == 843:
             return (path, costa)
 
+        cost=accu
+        degupp=list(bresenham(row, col, row+5, col+buffer))
+        degupp_path=[]
+        deg90=list(bresenham(row, col, row, col+buffer))
+        deg90_path=[]
+        degdwn=list(bresenham(row, col, row+5, col+buffer))
+        degdwn_path=[]
+        #b=[]
+        #for x in b:
+        #    b.append(list(x))
+
+        costadd=accu
+        if col == 843-buffer:
+            buffer=buffer-1
+        if row == 479-buffer:
+            maxrow=maxrow-1
+        if col == 843:
+            return (path, costadd)
+
         best=[]
         radarcost=0
+
+        for steps in range(len(degupp,)-1):
+            (row,col) = degupp[steps]
+            (row2,col2) = degupp[steps+1]
+            degupp_path.append(row)
+            radarcost+=abs(grid[row][col] - grid[row2][col2])
+        best.append(radarcost)
+        radarcost=0
+
         for steps in range(len(deg90,)-1):
             (row,col) = deg90[steps]
             (row2,col2) = deg90[steps+1]
+            deg90_path.append(row)
             radarcost+=abs(grid[row][col] - grid[row2][col2])
         best.append(radarcost)
+        radarcost=0
+        print(deg90_path)
 
         for steps in range(len(degdwn,)-1):
             (row,col) = degdwn[steps]
             (row2,col2) = degdwn[steps+1]
+            degdwn_path.append(row)
             radarcost+=abs(grid[row][col] - grid[row2][col2])
         best.append(radarcost)
+        radarcost=0
         
-        print(best)
-        return
+        best_choice=min(best[0], best[1], best[2])
+
+        if best_choice == best[0]:
+            cost+=best_choice
+            return self.recRadar(grid,  row-5 , col+buffer, path.extend([degupp_path]), costadd, buffer)
+
+        if best_choice == best[1]:
+            cost+=best_choice
+            return self.recRadar(grid,  row , col+buffer, path.extend([deg90_path]), costadd, buffer)        
+     
+        if best_choice == best[2]:
+            cost+=best_choice
+            return self.recRadar( grid,  row+5 , col+buffer, path.extend([degdwn_path]), costadd, buffer)
+        
+        return 
 
 
 
