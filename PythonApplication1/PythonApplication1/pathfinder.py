@@ -25,7 +25,7 @@ class Pathfinder:
 
 
         # Starting at a random position on the left:
-        for i in range(0,3):
+        for i in range(1,3):
             
             starting_row = i
             matrix=self._map.getMatrix()
@@ -64,9 +64,10 @@ class Pathfinder:
         print("Least cost in m: ", min(costlist))
         
         self._visualiser.setBestPathCost( min(costlist) )
-
-        self.recRadar(matrix, 100 , 0, path, costlista, buffer)
-        
+        path=[]
+        self.recRadar(matrix, 50 , 0, path, costlista, buffer)
+        print("path:", path)
+        self._visualiser.setBestPath(pathlista[1])
      
 
         # What next?  Can you do better than random?
@@ -80,14 +81,16 @@ class Pathfinder:
 
     def recRadar(self, grid,  row , col, path, accu, buffer):
         path=path
-        cost=accu
+        costadd=accu
+        print("############################################",col)
 
-        if col == 843-buffer:
-            buffer=buffer-1
+        if col >= 818:
+            buffer=0
+            
         if row == 479-buffer:
             maxrow=maxrow-1
         if col == 843:
-            return (path, costa)
+            return (path, costadd)
 
         cost=accu
         degupp=list(bresenham(row, col, row+5, col+buffer))
@@ -96,17 +99,13 @@ class Pathfinder:
         deg90_path=[]
         degdwn=list(bresenham(row, col, row+5, col+buffer))
         degdwn_path=[]
+        
         #b=[]
         #for x in b:
         #    b.append(list(x))
 
-        costadd=accu
-        if col == 843-buffer:
-            buffer=buffer-1
-        if row == 479-buffer:
-            maxrow=maxrow-1
-        if col == 843:
-            return (path, costadd)
+      
+
 
         best=[]
         radarcost=0
@@ -115,7 +114,9 @@ class Pathfinder:
             (row,col) = degupp[steps]
             (row2,col2) = degupp[steps+1]
             degupp_path.append(row)
+            print(row, col, row2, col2)
             radarcost+=abs(grid[row][col] - grid[row2][col2])
+            
         best.append(radarcost)
         radarcost=0
 
@@ -123,6 +124,7 @@ class Pathfinder:
             (row,col) = deg90[steps]
             (row2,col2) = deg90[steps+1]
             deg90_path.append(row)
+            print(row)
             radarcost+=abs(grid[row][col] - grid[row2][col2])
         best.append(radarcost)
         radarcost=0
@@ -140,17 +142,23 @@ class Pathfinder:
 
         if best_choice == best[0]:
             cost+=best_choice
-            return self.recRadar(grid,  row-5 , col+buffer, path.extend([degupp_path]), costadd, buffer)
+            path.append(degupp_path)
+            print("path Upp", path)
+            return self.recRadar(grid,  row-5 , col+buffer, path, costadd, buffer)
 
         if best_choice == best[1]:
             cost+=best_choice
-            return self.recRadar(grid,  row , col+buffer, path.extend([deg90_path]), costadd, buffer)        
+            path.append(deg90_path)
+            print("path fwd", path)
+            return self.recRadar(grid,  row , col+buffer, path, costadd, buffer)        
      
         if best_choice == best[2]:
             cost+=best_choice
-            return self.recRadar( grid,  row+5 , col+buffer, path.extend([degdwn_path]), costadd, buffer)
+            path.append(degdwn_path)
+            print("path down", path)
+            return self.recRadar( grid,  row+5 , col+buffer, path, costadd, buffer)
         
-        return 
+        return cost, path
 
 
 
