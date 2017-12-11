@@ -271,6 +271,7 @@ class Pathfinder:
 
 
         #DownFwd
+        #Test maxdrop check
         if FwdD == minim:
             
             if row >474:
