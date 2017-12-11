@@ -19,13 +19,13 @@ class Pathfinder:
         costlista=0
         costlist=[]
         emptypath=[]
-        buffer=9 #Set Radar buffer, aka look ahead if either of next col is equal. 
+        buffer=20 #Set Radar buffer, aka look ahead if either of next col is equal. 
 
 
 
 
         # Starting at a random position on the left:
-        for i in range(0,10,1):
+        for i in range(0,3):
             
             starting_row = i
             matrix=self._map.getMatrix()
@@ -50,9 +50,6 @@ class Pathfinder:
         print(pathlista[1])
         #Draw other paths
 
-        
-            
-        
         #Calculate best path to draw
         bestpath=min(costlist)
         
@@ -67,6 +64,8 @@ class Pathfinder:
         print("Least cost in m: ", min(costlist))
         
         self._visualiser.setBestPathCost( min(costlist) )
+
+        self.recRadar(matrix, 0 , 0, path, costlista, buffer)
         
      
 
@@ -78,11 +77,13 @@ class Pathfinder:
 
 
     #Recursive radar draft
-    def recRadar(self, grid  row , col, path, accu, buffer):
-
+    def recRadar(self, grid,  row , col, path, accu, buffer):
+        cost=accu
+        degupp=list(bresenham(row, col, row+5, col+buffer))
         deg90=list(bresenham(row, col, row, col+buffer))
+        degdwn=list(bresenham(row, col, row+5, col+buffer))
         b=[]
-        for x in a:
+        for x in b:
             b.append(list(x))
 
         costadd=accu
@@ -93,12 +94,23 @@ class Pathfinder:
         if col == 843:
             return (path, costa)
 
-        best=0
+        best=[]
+        radarcost=0
+        for steps in range(len(deg90,)-1):
+            (row,col) = deg90[steps]
+            (row2,col2) = deg90[steps+1]
+            radarcost+=abs(grid[row][col] - grid[row2][col2])
+        best.append(radarcost)
 
-        for steps in range(len(deg90)-1):
-        (row,col) = b[steps]
-        (row2,col2) = b[steps+1]
-        best+=abs(cost[row][col] - cost[row2][col2])
+        for steps in range(len(degdwn,)-1):
+            (row,col) = degdwn[steps]
+            (row2,col2) = degdwn[steps+1]
+            radarcost+=abs(grid[row][col] - grid[row2][col2])
+        best.append(radarcost)
+        
+        print(best)
+        return
+
 
 
 
