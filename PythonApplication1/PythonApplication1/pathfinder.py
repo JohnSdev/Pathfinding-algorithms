@@ -17,7 +17,7 @@ class Pathfinder:
         costlista=0
         costlist=[]
         emptypath=[]
-        buffer=100 #Set Radar buffer, aka look ahead if either of next col is equal. 
+        buffer=4 #Set Radar buffer, aka look ahead if either of next col is equal. 
 
         # Starting at a random position on the left:
         for i in range(0,477):
@@ -78,6 +78,7 @@ class Pathfinder:
         
         costa=accu
         path=path
+        maxrow=5
         #buffer=buffer
         
         """
@@ -172,6 +173,8 @@ class Pathfinder:
  #######################################################################################          
         if col == 843-buffer:
             buffer=buffer-1
+        if row == 479-buffer:
+            maxrow=maxrow-1
         if col == 843:
             return (path, costa)
         #print(FwdU,FwdS,FwdD)
@@ -191,7 +194,7 @@ class Pathfinder:
         buffermin_upp=abs(FwdUBuffer - start[row][col])
         buffermin_dwn=abs(FwdDBuffer - start[row][col])
         buffermin_fwd=abs(FwdSBuffer - start[row][col])
-        buffermin=min(buffermin_fwd, buffermin_up, buffermin_dwn)        
+        buffermin=min(buffermin_fwd, buffermin_upp, buffermin_dwn)        
         
         
         radarchoice=None #What the radar has selected -1, 0, 1
@@ -199,8 +202,8 @@ class Pathfinder:
         #If position is at top dont look above matix
         if row == 0:
             if FwdU == FwdS: #Id next are equal, Use radar buffer
-                radarchoice=min(FwdSBuffer, FwdDBuffer) #
-                if radarchoice==FwdSBuffer:
+                radarchoice=min(buffermin_fwd, buffermin_dwn) #
+                if radarchoice==buffermin_fwd:
                     minim=FwdS
                 else:
                     minim=FwdD
@@ -211,8 +214,8 @@ class Pathfinder:
         #If postiton is at bottom, dont look past max limit.
         elif row == 478: 
             if FwdU == FwdS: 
-                radarchoice=min(FwdUBuffer, FwdSBuffer )
-                if radarchoice==FwdUBuffer:
+                radarchoice=min(buffermin_upp, buffermin_fwd )
+                if radarchoice==buffermin_upp:
                     minim=FwdU
                 else:
                     minim==FwdS
@@ -227,29 +230,30 @@ class Pathfinder:
         #Check for equals and activate radar if nedded
         else:
             if FwdU == FwdS: 
-                radarchoice=min(FwdUBuffer, FwdSBuffer )
-                if radarchoice==FwdUBuffer:
-                    minim=min(FwdU, FwdD)
+                radarchoice=min(buffermin_upp, buffermin_fwd )
+                if radarchoice==buffermin_upp:
+                    minim=FwdU
                 else:
                     minim=min(FwdS, FwdD)
 
             if FwdU == FwdD:
-                radarchoice=min(FwdUBuffer, FwdDBuffer )
-                if radarchoice==FwdUBuffer:
-                    minim=min(FwdU, FwdS)
+                radarchoice=min(buffermin_upp, buffermin_dwn )
+                if radarchoice==buffermin_upp:
+                    minim=FwdU
                 else:
                     minim=min(FwdD, FwdS)
 
             if FwdD == FwdS:
 
-                radarchoice=min(FwdDBuffer, FwdSBuffer )
-                if radarchoice==FwdDBuffer:
-                    minim=min(FwdD, FwdU)
+                radarchoice=min(buffermin_dwn, buffermin_fwd )
+                if radarchoice==buffermin_dwn:
+                    minim=FwdD
                 else:
                     minim=min(FwdS, FwdU)
             else:
                 minim=min(FwdS, FwdU, FwdD)
-        
+ 
+
 
         #FwdUpp
         if FwdU == minim:
