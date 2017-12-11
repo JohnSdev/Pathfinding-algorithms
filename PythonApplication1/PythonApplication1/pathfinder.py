@@ -19,13 +19,14 @@ class Pathfinder:
         costlista=0
         costlist=[]
         emptypath=[]
-        buffer=20 #Set Radar buffer, aka look ahead if either of next col is equal. 
+        mergedpath=[]
+        buffer=2 #Set Radar buffer, aka look ahead if either of next col is equal. 
 
 
 
 
         # Starting at a random position on the left:
-        for i in range(1,3):
+        for i in range(5,50,1):
             
             starting_row = i
             matrix=self._map.getMatrix()
@@ -33,23 +34,32 @@ class Pathfinder:
             # Search for one random path:
             #( cost ) = self.minCost( starting_row )
             
+            
+            #(path, cost)  = self.rec(matrix,i, 0, emptypath, costlista, buffer)
+            (path, cost)  = self.recRadar(matrix, i , 0, emptypath, costlista, buffer)
 
-            (path, cost)  = self.rec(matrix,i, 0, emptypath, costlista, buffer)
+            mergedpath=[item for sublist in path for item in sublist]
+            
+            #for list in path:
+            #    for item in list:
+            #        mergedpath.append(item)
+           
             costlist.append(cost)
-            path.extend([0])
-            pathlista.append(path)
+            #path.extend([0])
+            pathlista.append(mergedpath)
+            
            
             #print(sum(costa))
-            self._visualiser.addPath(path)
+            self._visualiser.addPath(mergedpath)
             # It is the only path we have found, visualise it:
+            mergedpath=[1]
         
-        
-        print("length 1:{}  2: {}".format(len(pathlista[0]), len(pathlista[1])))  
-        
+        print("length 1:{}  2: {}".format(len(pathlista[0]), len(pathlista[2])))  
+            
 
-        print(pathlista[1])
+        
         #Draw other paths
-
+        print(costlist[1])
         #Calculate best path to draw
         bestpath=min(costlist)
         
@@ -59,15 +69,15 @@ class Pathfinder:
                 
         
         
-        #And the cost of this so called "best" path:
+
         print(sorted(costlist))
         print("Least cost in m: ", min(costlist))
         
         self._visualiser.setBestPathCost( min(costlist) )
-        path=[]
-        self.recRadar(matrix, 50 , 0, path, costlista, buffer)
-        print("path:", path)
-        self._visualiser.setBestPath(pathlista[1])
+        #path=[]
+        #self.recRadar(matrix, x , 0, path, costlista, buffer)
+        #print("path:", path)
+        #self._visualiser.setBestPath(pathlista[1])
      
 
         # What next?  Can you do better than random?
@@ -81,84 +91,113 @@ class Pathfinder:
 
     def recRadar(self, grid,  row , col, path, accu, buffer):
         path=path
-        costadd=accu
-        print("############################################",col)
-
-        if col >= 818:
-            buffer=0
-            
+        cost=accu
+        print(col)
+        buffer=buffer
+        maxrow=2
+        if col == 843:
+            buffer=1       
         if row == 479-buffer:
             maxrow=maxrow-1
-        if col == 843:
-            return (path, costadd)
+        if col >= 838:
+            return (path, cost)
+        lista0=[]
+        lista1=[]
+        lista2=[]
+        lista3=[]
+        lista4=[]
+        lista5=[]
+        lista6=[]
+        lista7=[]
+        lista8=[]
+        lista9=[]
 
-        cost=accu
-        degupp=list(bresenham(row, col, row+5, col+buffer))
+        #Generate generic radar rays 
+        degupp=[]
+        deg90=[]
+        degdwn=[]
+        fwdUpp=list(bresenham(row, col, row-maxrow, col+buffer))
         degupp_path=[]
-        deg90=list(bresenham(row, col, row, col+buffer))
+        fwd=list(bresenham(row, col, row, col+buffer))
+
+        for x in range(-5,5)
+            list[x]=list(bresenham(row, col, row+x, col+buffer))
+        
         deg90_path=[]
-        degdwn=list(bresenham(row, col, row+5, col+buffer))
+        fwdDwn=list(bresenham(row, col, row+maxrow, col+buffer))
         degdwn_path=[]
         
-        #b=[]
-        #for x in b:
-        #    b.append(list(x))
-
-      
-
-
-        best=[]
+        bestup=0
+        bestfwd=0
+        bestdwn=0
         radarcost=0
 
+        for x in fwdUpp:
+            degupp.append(x)
+        for x in fwd:
+            deg90.append(x)
+        for x in fwdDwn:
+            degdwn.append(x)
+        
+        for lists in range(0,9):
+            for steps in range(len(lista[lists]))
+                (rows,cols) = lista[lists][steps]
+                (rows2,cols2) = lista[lists][steps+1]
+                degupp_path.append(row)
+            #print(row, col, row2, col2)
+
+            radarcost+=abs(grid[rows][cols] - grid[rows2][cols2])
         for steps in range(len(degupp,)-1):
-            (row,col) = degupp[steps]
-            (row2,col2) = degupp[steps+1]
+            (rows,cols) = degupp[steps]
+            (rows2,cols2) = degupp[steps+1]
             degupp_path.append(row)
-            print(row, col, row2, col2)
-            radarcost+=abs(grid[row][col] - grid[row2][col2])
+            #print(row, col, row2, col2)
+            radarcost+=abs(grid[rows][cols] - grid[rows2][cols2])
             
-        best.append(radarcost)
+        bestup=radarcost
         radarcost=0
 
         for steps in range(len(deg90,)-1):
-            (row,col) = deg90[steps]
-            (row2,col2) = deg90[steps+1]
+            (rows,cols) = deg90[steps]
+            (rows2,cols2) = deg90[steps+1]
             deg90_path.append(row)
-            print(row)
-            radarcost+=abs(grid[row][col] - grid[row2][col2])
-        best.append(radarcost)
+ 
+            radarcost+=abs(grid[rows][cols] - grid[rows2][cols2])
+        bestfwd=radarcost
         radarcost=0
-        print(deg90_path)
+
 
         for steps in range(len(degdwn,)-1):
-            (row,col) = degdwn[steps]
-            (row2,col2) = degdwn[steps+1]
+            (rows,cols) = degdwn[steps]
+            (rows2,cols2) = degdwn[steps+1]
             degdwn_path.append(row)
-            radarcost+=abs(grid[row][col] - grid[row2][col2])
-        best.append(radarcost)
+            radarcost+=abs(grid[rows][cols] - grid[rows2][cols2])
+        bestdwn=radarcost
         radarcost=0
-        
-        best_choice=min(best[0], best[1], best[2])
 
-        if best_choice == best[0]:
-            cost+=best_choice
-            path.append(degupp_path)
-            print("path Upp", path)
-            return self.recRadar(grid,  row-5 , col+buffer, path, costadd, buffer)
+        #Sets which radar ray got the least cost. 
+        best_choice=min(bestup, bestfwd, bestdwn)
 
-        if best_choice == best[1]:
+        #Ray Up
+        if best_choice == bestup:
             cost+=best_choice
-            path.append(deg90_path)
-            print("path fwd", path)
-            return self.recRadar(grid,  row , col+buffer, path, costadd, buffer)        
-     
-        if best_choice == best[2]:
+            #path.append(degupp_path)
+
+            return self.recRadar(grid,  row-maxrow , col+buffer, path+[degupp_path], cost, buffer)
+        #Ray Fwd
+        elif best_choice == bestfwd:
             cost+=best_choice
-            path.append(degdwn_path)
-            print("path down", path)
-            return self.recRadar( grid,  row+5 , col+buffer, path, costadd, buffer)
+            #path.append(deg90_path)
+
+            return self.recRadar(grid,  row , col+buffer, path+[deg90_path], cost, buffer)        
+        #Ray Dwn
+        elif best_choice == bestdwn:
+            cost+=best_choice
+            #path.append(degdwn_path)
+
+            return self.recRadar( grid,  row+maxrow , col+buffer, path+[degdwn_path], cost, buffer)
         
-        return cost, path
+        return path
 
 
 

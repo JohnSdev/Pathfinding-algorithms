@@ -77,7 +77,7 @@ def minCost(cost, m, n):
     return tc[m][n]
 
 # Driver program to test above functions
-cost = [[1, 1, 1, 1, 1, 1, 1, 1],
+cost = [[1, 1, 1, 1, 1, 2, 3, 1],
         [2, 2, 6, 2, 6, 2, 2, 2],
         [2, 1, 6, 1, 6, 1, 1, 1],
         [2, 1, 6, 1, 6, 1, 1, 1],
@@ -87,21 +87,28 @@ cost = [[1, 1, 1, 1, 1, 1, 1, 1],
 #    print("rad:{}, costnad: {}".format(x, minCost(cost, 3, x)))
 
 #print(minCost(cost, 5,4), "Target is 4")
-a=list(bresenham(0, 0, 4, 3))
-b=[]
-for x in a:
-    
-    b.append(list(x))
+a=list(bresenham(0, 0, 2, 3))
+b=list(bresenham(2, 3, 0, 7))
 
 costa=0
+print(a)
 print(b)
 
 best=0
 
+tmp=[]
+for steps in range(len(a)-1):
+    (row,col) = a[steps]
+    (row2,col2) = a[steps+1]
+    best+=abs(cost[row][col] - cost[row2][col2])
+    tmp.append(row)
+print(tmp)
 for steps in range(len(b)-1):
     (row,col) = b[steps]
     (row2,col2) = b[steps+1]
     best+=abs(cost[row][col] - cost[row2][col2])
+    tmp.append(row)
+print(tmp)
 
 print(best)
      

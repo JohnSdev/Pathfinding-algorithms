@@ -46,7 +46,7 @@ class Visualiser:
     def drawPaths(self):
         if self._paths:
             for path in self._paths:
-                for col in range(self._width):
+                for col in range(self._width-10):
                     
                     row = path[col]
                     #print (row)
@@ -61,7 +61,7 @@ class Visualiser:
 
     def drawBestPath(self):
         if self._best_path:
-            for col in range(self._width):
+            for col in range(self._width-10):
                 row = self._best_path[col]
                 h = (0,255,0)
                 self._screen.set_at((col, row), h)
