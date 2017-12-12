@@ -23,7 +23,9 @@ class Pathfinder:
             # Search for one random path:
 
             #self.minCost( starting_row )
-            self.dynamicP(matrix, m, n)
+            (dMatrix) = self.dynamicP(matrix, m, n)
+            self.dynamicPaths(dMatrix)
+
 
             #print(path)
         # It is the only path we have found, visualise it:
@@ -72,7 +74,7 @@ class Pathfinder:
         for i in range(1, n+1):
             for j in range(1, m+1):
                 if j <=1:
-                    BU=100000000000
+                    BU=1000000000
                 else:
                     BU=abs(cost[j][i] - cost[j-1][i-1]) + tc[j-1][i-1]
                 if j >=477:
@@ -97,14 +99,36 @@ class Pathfinder:
         costrow=[]
         for x in range(0,478):
             costrow.append(tc[x][843])
-        print(costrow)
-        print("Total Cost :",tc[m][n])
-        #print (*tc)
-
-        #Construct path
         
-        return tc[m][n]
+        print("Total Cost :",tc[m][n])
+        
+        
+        return tc
 
+    def dynamicPaths(self, grid):
+        pathlist=[]
+
+        for cols in range (0, 843, -1):
+            for rows in range(1, 479):
+             pathlist.append(min(grid[rows-1][cols+1], grid[rows][cols+1], grid[rows+1][cols+1] ))
+        
+        cols=848
+        rows=1
+        while cols>0:
+            nextMin=min(grid[rows-1][cols-1], grid[rows][cols-1], grid[rows+1][cols-1])
+            if nextMin == grid[rows-1][cols-1]:
+                pathlist.append(rows-1)
+            elif nextMin == grid[rows][cols-1]:
+                pathlist.append(rows)
+            elif nextMin == grid[rows+1][cols-1]:
+                pathlist.append(rows+1)
+            cols-= 1
+        print(pathlist)
+        return
+
+
+
+            
     def minCost(self, start):
         cost=0
    
