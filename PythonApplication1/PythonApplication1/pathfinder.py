@@ -108,20 +108,32 @@ class Pathfinder:
     def dynamicPaths(self, grid):
         pathlist=[]
 
-        for cols in range (0, 843, -1):
-            for rows in range(1, 479):
-             pathlist.append(min(grid[rows-1][cols+1], grid[rows][cols+1], grid[rows+1][cols+1] ))
+        #for cols in range (0, 843, -1):
+        #    for rows in range(1, 479):
+        #     pathlist.append(min(grid[rows-1][cols+1], grid[rows][cols+1], grid[rows+1][cols+1] ))
         
         cols=848
-        rows=1
+        rows=50
         while cols>0:
-            nextMin=min(grid[rows-1][cols-1], grid[rows][cols-1], grid[rows+1][cols-1])
+            if rows >=478:
+                nextMin=min(grid[rows-1][cols-1], grid[rows][cols-1])
+            elif rows <=0:
+                nextMin=min(grid[rows][cols-1], grid[rows+1][cols-1])
+
+            else:
+
+                nextMin=min(grid[rows-1][cols-1], grid[rows][cols-1], grid[rows+1][cols-1])
+
             if nextMin == grid[rows-1][cols-1]:
                 pathlist.append(rows-1)
+                rows -= 1
             elif nextMin == grid[rows][cols-1]:
                 pathlist.append(rows)
+                rows = rows
             elif nextMin == grid[rows+1][cols-1]:
                 pathlist.append(rows+1)
+                rows +=1
+
             cols-= 1
         print(pathlist)
         return
