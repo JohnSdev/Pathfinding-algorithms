@@ -22,44 +22,31 @@ class Pathfinder:
         mergedpath=[]
         buffer=2 #Set Radar buffer, aka look ahead if either of next col is equal. 
 
-
-
-
         # Starting at a random position on the left:
         for i in range(5,50,1):
             
             starting_row = i
             matrix=self._map.getMatrix()
             
-            # Search for one random path:
+            # Experiment with Dynamic programming
             #( cost ) = self.minCost( starting_row )
-            
-            
-            #(path, cost)  = self.rec(matrix,i, 0, emptypath, costlista, buffer)
-            (path, cost)  = self.recRadar(matrix, i , 0, emptypath, costlista, buffer)
+                      
+            (path, cost)  = self.rec(matrix,i, 0, emptypath, costlista, buffer)
 
             mergedpath=[item for sublist in path for item in sublist]
-            
-            #for list in path:
-            #    for item in list:
-            #        mergedpath.append(item)
-           
+                   
             costlist.append(cost)
             #path.extend([0])
             pathlista.append(mergedpath)
-            
-           
-            #print(sum(costa))
+                      
+            #Add all paths and visualize them
             self._visualiser.addPath(mergedpath)
-            # It is the only path we have found, visualise it:
+            
+            #Reset path list for each iteration
             mergedpath=[1]
         
         print("length 1:{}  2: {}".format(len(pathlista[0]), len(pathlista[2])))  
             
-
-        
-        #Draw other paths
-        print(costlist[1])
         #Calculate best path to draw
         bestpath=min(costlist)
         
@@ -67,28 +54,79 @@ class Pathfinder:
             if costlist[x] == bestpath:
                 self._visualiser.setBestPath(pathlista[x])
                 
-        
-        
 
-        print(sorted(costlist))
+        print(sorted(costlist)) #Debug list of all costs
         print("Least cost in m: ", min(costlist))
-        
+        #Visualize best path
         self._visualiser.setBestPathCost( min(costlist) )
         #path=[]
         #self.recRadar(matrix, x , 0, path, costlista, buffer)
         #print("path:", path)
         #self._visualiser.setBestPath(pathlista[1])
      
-
-        # What next?  Can you do better than random?
-        # TODO:  Step 1 - a greeedy algorithm from a random starting position
-        # TODO:  Step 2 - best greedy of all possible starting positions
-        # TODO:  Step 3 - improve even more!
         return
 
+    def findCheapestPathWithRadar(self):
+        cost=0
+        # Mark's silly algorithm for finding the cheapest path:
+        #   Use random logic - virtually gauranteed to give the correct answer
+        #   eventually if we just run it enough times.
+        #   NOTE: Since problem is NP-hard - we won't know for sure that it is
+        #         the correct answer when we get it which is a bummer.
+        path=[]
+        pathlista=[]
+        costlista=0
+        costlist=[]
+        emptypath=[]
+        mergedpath=[]
+        buffer=2 #Set Radar buffer, aka look ahead if either of next col is equal. 
+
+        # Starting at a random position on the left:
+        for i in range(5,50,1):
+            
+            starting_row = i
+            matrix=self._map.getMatrix()
+            
+            # Experiment with Dynamic programming
+            #( cost ) = self.minCost( starting_row )
+                      
+            #(path, cost)  = self.rec(matrix,i, 0, emptypath, costlista, buffer)
+            (path, cost)  = self.recRadar(matrix, i , 0, emptypath, costlista, buffer)
+
+            mergedpath=[item for sublist in path for item in sublist]
+                   
+            costlist.append(cost)
+            #path.extend([0])
+            pathlista.append(mergedpath)
+                      
+            #Add all paths and visualize them
+            self._visualiser.addPath(mergedpath)
+            
+            #Reset path list for each iteration
+            mergedpath=[1]
+        
+        print("length 1:{}  2: {}".format(len(pathlista[0]), len(pathlista[2])))  
+            
+        #Calculate best path to draw
+        bestpath=min(costlist)
+        
+        for x in range(len(costlist)):
+            if costlist[x] == bestpath:
+                self._visualiser.setBestPath(pathlista[x])
+                
+
+        print(sorted(costlist)) #Debug list of all costs
+        print("Least cost in m: ", min(costlist))
+        #Visualize best path
+        self._visualiser.setBestPathCost( min(costlist) )
+        #path=[]
+        #self.recRadar(matrix, x , 0, path, costlista, buffer)
+        #print("path:", path)
+        #self._visualiser.setBestPath(pathlista[1])
+     
+        return
 
     #Recursive radar draft
-
     def recRadar(self, grid,  row , col, path, accu, buffer):
         path=path
         cost=accu
@@ -111,6 +149,17 @@ class Pathfinder:
         lista7=[]
         lista8=[]
         lista9=[]
+        
+        nylista0=[]
+        nylista1=[]
+        nylista2=[]
+        nylista3=[]
+        nylista4=[]
+        nylista5=[]
+        nylista6=[]
+        nylista7=[]
+        nylista8=[]
+        nylista9=[]
 
         #Generate generic radar rays 
         degupp=[]
@@ -120,8 +169,9 @@ class Pathfinder:
         degupp_path=[]
         fwd=list(bresenham(row, col, row, col+buffer))
 
-        for x in range(-5,5)
-            list[x]=list(bresenham(row, col, row+x, col+buffer))
+        for x in range(-5,5):
+            
+            lista0=list(bresenham(row, col, row+x, col+buffer))
         
         deg90_path=[]
         fwdDwn=list(bresenham(row, col, row+maxrow, col+buffer))
@@ -140,13 +190,14 @@ class Pathfinder:
             degdwn.append(x)
         
         for lists in range(0,9):
-            for steps in range(len(lista[lists]))
-                (rows,cols) = lista[lists][steps]
+            for steps in range(len(lista0)):
+                (rows,cols) = lista
                 (rows2,cols2) = lista[lists][steps+1]
-                degupp_path.append(row)
+                nylista[x].append(row)
             #print(row, col, row2, col2)
 
             radarcost+=abs(grid[rows][cols] - grid[rows2][cols2])
+
         for steps in range(len(degupp,)-1):
             (rows,cols) = degupp[steps]
             (rows2,cols2) = degupp[steps+1]
@@ -350,11 +401,7 @@ class Pathfinder:
                 else:
                     minim==FwdS
            
-
-            
-
-        
-        
+  
             
         #If position is not top/bottom, aka normal run
         #Check for equals and activate radar if nedded
