@@ -9,82 +9,52 @@ class Pathfinder:
         matrix=self._map.getMatrix()
         cost=0
         pathstorage=[]
-        # Mark's silly algorithm for finding the cheapest path:
-        #   Use random logic - virtually gauranteed to give the correct answer
-        #   eventually if we just run it enough times.
-        #   NOTE: Since problem is NP-hard - we won't know for sure that it is
-        #         the correct answer when we get it which is a bummer.
+        bestpath=0
 
-        # Starting at a random position on the left:
-        for x in range(0,1):
-            m=479
-            n=843
-            starting_row = x
+        m=479
+        n=843
+        starting_row = x
 
-            # Search for one random path:
+        # Search for one random path:
 
-            #self.minCost( starting_row )
-            path=[]
-            (dMatrix, costrow) = self.dynamicP(matrix, m, n)
-            pathstorage = self.dynamicPaths(dMatrix)
+        #self.minCost( starting_row )
+        path=[]
+        (dMatrix, costrow) = self.dynamicP(matrix, m, n)
+        pathstorage = self.dynamicPaths(dMatrix)
+        print(dMatrix[0])
 
-            #Visualize paths
-            for paths in pathstorage:
-                paths.reverse()
-                self._visualiser.addPath(paths)
+        #Visualize paths
+        for paths in pathstorage:
+            paths.reverse()
+            self._visualiser.addPath(paths)
             
-            #Find best path
-            for best in range(len(costrow):
-                if costrow[best] == min()
+        #Find and show best path
+        costrow.sort()
+        bestpath=costrow[1]
+        for best in range(len(costrow)):
+            if costrow[best] == bestpath:
+                self._visualiser.setBestPath(pathstorage[best])
+                self._visualiser.setBestPathCost( bestpath )
 
 
-        # The only path so it must also be the best path, visualise that:
-            #self._visualiser.setBestPath(pathstorage[1])
-
-        # And the cost of this so called "best" path:
-            #self._visualiser.setBestPathCost( cost )
-            
-        # What next?  Can you do better than random?
-        # TODO:  Step 1 - a greeedy algorithm from a random starting position
-        # TODO:  Step 2 - best greedy of all possible starting positions
-        # TODO:  Step 3 - improve even more!
-        return
-
+    #Dynamic programming algo
     def dynamicP(self, grid, m, n):
         cost=grid
         R = 480
         C = 844
-
         total_cost=[]
+        #Create mirror array
         tc = [[0 for x in range(C)] for x in range(R)]
 
-        step=0
-        #tc[0][0] = cost[0][step]#col 3
-    
-    
-        #for i in range(1, m+1):
-        #    tc[i][0] = abs(cost[i-1][0] - cost[i][step])
-        #    #tc[i][0] = tc[i-1][0] + cost[i][step]
- 
-  
-        #for j in range(1, n+1):
-        #    tc[0][j] = abs(cost[0][j-1] - cost[0][j+step])
- 
-        print("DP Matrix")
-        #for i in range(0, m):
-        #    for j in range(0, n):
-        #        next_min=min(cost[i-1][j-1]+tc[i-1][j-1], cost[i][j-1]+tc[i][j-1], cost[i+1][j-1]+tc[i+1][j-1])
-        #        tc[i][j] = abs(next_min - cost[i][j+step])
-        #        #add append of abs to list
-        #        total_cost.append(tc[i][j])
-
+        #Top down cost traverser
         for i in range(1, n+1):
-            for j in range(1, m+1):
+            for j in range(0, m):
+                #BackUp, Back, and BackDown checks
                 if j <=1:
                     BU=1000000000
                 else:
                     BU=abs(cost[j][i] - cost[j-1][i-1]) + tc[j-1][i-1]
-                if j >=479:
+                if j >=478:
                     BD=1000000000
                 else:
                 
@@ -95,30 +65,27 @@ class Pathfinder:
                 print("NM {} on col:{}, pos {}".format(next_min, i, cost[j][i]))
                 tc[j][i] = next_min
                 
-                #add append of abs to list
+                #Adds total cost to list
                 total_cost.append(tc[j][i])
 
 
 
-        print("")
-        print("Original Matrix {}, {}".format(m,n))
+        
         costrow=[]
+        #Debug chow last col, aka total cost 
         for x in range(0,478):
             costrow.append(tc[x][843])
+        #Debug show list with all rows costs
         print(costrow)
-        print("Total Cost :",tc[m][n])
-        
-        
+         
         return (tc, costrow)
 
+    #Build paths after dynamic arrays it created
     def dynamicPaths(self, grid):
         pathlist=[]
         pathstorage=[]
-        #for cols in range (0, 843, -1):
-        #    for rows in range(1, 479):
-        #     pathlist.append(min(grid[rows-1][cols+1], grid[rows][cols+1], grid[rows+1][cols+1] ))
-        for i in range(0,477):
 
+        for i in range(0,477):
             cols=844
             rows=i
             while cols>0:
@@ -143,29 +110,20 @@ class Pathfinder:
                     rows -= 1
 
                 cols-= 1
-
+            
+            #Gathers each rows path and appends to pathlist
             pathstorage.append(pathlist)   
             pathlist=[]
         return pathstorage
 
-
-
-            
+    #Dynamic programming draft,       
     def minCost(self, start):
         cost=0
-   
-    #    # for q in range(0,5):
-        
-	   # # Instead of following line, we can use int tc[m+1][n+1] or
-	   # # dynamically allocate memoery to save space. The following
-	   # # line is used to keep te program simple and make it working
-	   # # on all compilers.
+
 
         rows = self._map.getHeight()
         cols = self._map.getWidth()
-
         row = start
-
         costn = []
         col=0
         path=[ row ]
@@ -200,12 +158,8 @@ class Pathfinder:
             for j in range(1, n+1):
                 next_min=min(tc[i-1][j-1], tc[i-1][j], tc[i][j-1])
                 tc[i][j] = abs(next_min - rotatedmap[i][j+step])     
-                       
-
-        #Construct path
+                      
        
-
-
         costn.append(int(tc[m][n]))        
         #path.append(col)
         #print (costn)
