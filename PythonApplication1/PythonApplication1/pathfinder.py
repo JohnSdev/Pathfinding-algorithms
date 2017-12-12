@@ -24,15 +24,15 @@ class Pathfinder:
 
             #self.minCost( starting_row )
             (dMatrix) = self.dynamicP(matrix, m, n)
-            self.dynamicPaths(dMatrix)
-
+            path = self.dynamicPaths(dMatrix)
+            print(len(path))
 
             #print(path)
         # It is the only path we have found, visualise it:
-       # self._visualiser.addPath(path)
+            self._visualiser.addPath(path)
 
         # The only path so it must also be the best path, visualise that:
-            #self._visualiser.setBestPath(path)
+            self._visualiser.setBestPath(path)
 
         # And the cost of this so called "best" path:
             #self._visualiser.setBestPathCost( cost )
@@ -124,19 +124,19 @@ class Pathfinder:
 
                 nextMin=min(grid[rows-1][cols-1], grid[rows][cols-1], grid[rows+1][cols-1])
 
-            if nextMin == grid[rows-1][cols-1]:
-                pathlist.append(rows-1)
-                rows -= 1
-            elif nextMin == grid[rows][cols-1]:
-                pathlist.append(rows)
-                rows = rows
-            elif nextMin == grid[rows+1][cols-1]:
-                pathlist.append(rows+1)
-                rows +=1
+                if nextMin == grid[rows-1][cols-1]:
+                    pathlist.append(rows)
+                    rows -= 1
+                elif nextMin == grid[rows][cols-1]:
+                    pathlist.append(rows)
+                    rows = rows
+                elif nextMin == grid[rows+1][cols-1]:
+                    pathlist.append(rows)
+                    rows +=1
 
             cols-= 1
         print(pathlist)
-        return
+        return pathlist
 
 
 
