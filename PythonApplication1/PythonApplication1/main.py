@@ -19,7 +19,8 @@ visualiser = Visualiser( "Inlupp 2 - Visualiser", map.getWidth(), map.getHeight(
 visualiser.setMap( map )
 
 pathfinder = Pathfinder( visualiser, map )
-pathfinder.findCheapestPath()
+#pathfinder.findCheapestPath()
+pathfinder.findCheapestPathWithRadar()
 #pathfinder.minCost()
 visualiser.runLoop()
 

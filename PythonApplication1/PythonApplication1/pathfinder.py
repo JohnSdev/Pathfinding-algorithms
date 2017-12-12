@@ -23,7 +23,7 @@ class Pathfinder:
         buffer=2 #Set Radar buffer, aka look ahead if either of next col is equal. 
 
         # Starting at a random position on the left:
-        for i in range(5,50,1):
+        for i in range(400,470,2):
             
             starting_row = i
             matrix=self._map.getMatrix()
@@ -79,10 +79,10 @@ class Pathfinder:
         costlist=[]
         emptypath=[]
         mergedpath=[]
-        buffer=2 #Set Radar buffer, aka look ahead if either of next col is equal. 
+        buffer=7 #Set Radar buffer, aka look ahead if either of next col is equal. 
 
         # Starting at a random position on the left:
-        for i in range(5,50,1):
+        for i in range(380,425,1):
             
             starting_row = i
             matrix=self._map.getMatrix()
@@ -132,7 +132,7 @@ class Pathfinder:
         cost=accu
         print(col)
         buffer=buffer
-        maxrow=2
+        maxrow=10
         if col == 843:
             buffer=1       
         if row == 479-buffer:
@@ -167,12 +167,7 @@ class Pathfinder:
         degdwn=[]
         fwdUpp=list(bresenham(row, col, row-maxrow, col+buffer))
         degupp_path=[]
-        fwd=list(bresenham(row, col, row, col+buffer))
-
-        for x in range(-5,5):
-            
-            lista0=list(bresenham(row, col, row+x, col+buffer))
-        
+        fwd=list(bresenham(row, col, row, col+buffer))        
         deg90_path=[]
         fwdDwn=list(bresenham(row, col, row+maxrow, col+buffer))
         degdwn_path=[]
@@ -188,15 +183,7 @@ class Pathfinder:
             deg90.append(x)
         for x in fwdDwn:
             degdwn.append(x)
-        
-        for lists in range(0,9):
-            for steps in range(len(lista0)):
-                (rows,cols) = lista
-                (rows2,cols2) = lista[lists][steps+1]
-                nylista[x].append(row)
-            #print(row, col, row2, col2)
-
-            radarcost+=abs(grid[rows][cols] - grid[rows2][cols2])
+       
 
         for steps in range(len(degupp,)-1):
             (rows,cols) = degupp[steps]
