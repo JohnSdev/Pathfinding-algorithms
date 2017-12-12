@@ -8,6 +8,7 @@ class Pathfinder:
     def findCheapestPath(self):
         matrix=self._map.getMatrix()
         cost=0
+        pathstorage=[]
         # Mark's silly algorithm for finding the cheapest path:
         #   Use random logic - virtually gauranteed to give the correct answer
         #   eventually if we just run it enough times.
@@ -23,16 +24,22 @@ class Pathfinder:
             # Search for one random path:
 
             #self.minCost( starting_row )
-            (dMatrix) = self.dynamicP(matrix, m, n)
-            path = self.dynamicPaths(dMatrix)
-            print(len(path))
+            path=[]
+            (dMatrix, costrow) = self.dynamicP(matrix, m, n)
+            pathstorage = self.dynamicPaths(dMatrix)
 
-            #print(path)
-        # It is the only path we have found, visualise it:
-            self._visualiser.addPath(path)
+            #Visualize paths
+            for paths in pathstorage:
+                paths.reverse()
+                self._visualiser.addPath(paths)
+            
+            #Find best path
+            for best in range(len(costrow):
+                if costrow[best] == min()
+
 
         # The only path so it must also be the best path, visualise that:
-            self._visualiser.setBestPath(path)
+            #self._visualiser.setBestPath(pathstorage[1])
 
         # And the cost of this so called "best" path:
             #self._visualiser.setBestPathCost( cost )
@@ -45,8 +52,8 @@ class Pathfinder:
 
     def dynamicP(self, grid, m, n):
         cost=grid
-        R = 900
-        C = 900
+        R = 480
+        C = 844
 
         total_cost=[]
         tc = [[0 for x in range(C)] for x in range(R)]
@@ -77,7 +84,7 @@ class Pathfinder:
                     BU=1000000000
                 else:
                     BU=abs(cost[j][i] - cost[j-1][i-1]) + tc[j-1][i-1]
-                if j >=477:
+                if j >=479:
                     BD=1000000000
                 else:
                 
@@ -91,52 +98,55 @@ class Pathfinder:
                 #add append of abs to list
                 total_cost.append(tc[j][i])
 
-        #for x in tc:
-        #    print(x)
+
 
         print("")
         print("Original Matrix {}, {}".format(m,n))
         costrow=[]
         for x in range(0,478):
             costrow.append(tc[x][843])
-        
+        print(costrow)
         print("Total Cost :",tc[m][n])
         
         
-        return tc
+        return (tc, costrow)
 
     def dynamicPaths(self, grid):
         pathlist=[]
-
+        pathstorage=[]
         #for cols in range (0, 843, -1):
         #    for rows in range(1, 479):
         #     pathlist.append(min(grid[rows-1][cols+1], grid[rows][cols+1], grid[rows+1][cols+1] ))
-        
-        cols=848
-        rows=50
-        while cols>0:
-            if rows >=478:
-                nextMin=min(grid[rows-1][cols-1], grid[rows][cols-1])
-            elif rows <=0:
-                nextMin=min(grid[rows][cols-1], grid[rows+1][cols-1])
+        for i in range(0,477):
 
-            else:
+            cols=844
+            rows=i
+            while cols>0:
+                if rows >=478:
+                    nextMin=min(grid[rows-1][cols-1], grid[rows][cols-1])
+                elif rows <=0:
+                    nextMin=min(grid[rows][cols-1], grid[rows+1][cols-1])
 
-                nextMin=min(grid[rows-1][cols-1], grid[rows][cols-1], grid[rows+1][cols-1])
+                else:
 
-                if nextMin == grid[rows-1][cols-1]:
+                    nextMin=min(grid[rows-1][cols-1], grid[rows][cols-1], grid[rows+1][cols-1])
+
+                if  nextMin == grid[rows+1][cols-1]:
                     pathlist.append(rows)
-                    rows -= 1
+                    rows +=1
+            
                 elif nextMin == grid[rows][cols-1]:
                     pathlist.append(rows)
                     rows = rows
-                elif nextMin == grid[rows+1][cols-1]:
+                elif nextMin == grid[rows-1][cols-1]:
                     pathlist.append(rows)
-                    rows +=1
+                    rows -= 1
 
-            cols-= 1
-        print(pathlist)
-        return pathlist
+                cols-= 1
+
+            pathstorage.append(pathlist)   
+            pathlist=[]
+        return pathstorage
 
 
 

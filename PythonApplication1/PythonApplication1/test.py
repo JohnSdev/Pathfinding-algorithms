@@ -77,29 +77,14 @@ cost = [[2, 1, 1, 1, 1, 1, 1, 1],
         [2, 31, 1, 1, 1, 1, 1, 1]]
 #for x in range(0,4):
 #    print("rad:{}, costnad: {}".format(x, minCost(cost, 3, x)))
-print(minCost(cost, 5, 5), "Target is 4")
+#print(minCost(cost, 5, 5), "Target is 4")
 
-
+lista=[1,2,3,4,5]
+lista.reverse()
+print(lista)
 # This code is contributed by Bhavya Jain
  
 #print(cost)
 #new=list(zip(*cost))[::-1]
 #new = list(map(list, new))
 #print(new)
-
-[[1, 1, 5], 
- [7, 7, 0], 
- [2, 7, 1]]
-
-"""
-[[1104, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
- [2, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
- [1, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
- [5, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
- [15, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
- [17, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
- [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], 
- [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0]]
-
-# This code is contributed by Bhavya Jain
-"""
