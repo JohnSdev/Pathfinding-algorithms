@@ -16,26 +16,27 @@ class Pathfinder:
         #         the correct answer when we get it which is a bummer.
 
         # Starting at a random position on the left:
-        for x in range(0,1):
-            m=479
-            n=843
-            starting_row = x
-
-            # Search for one random path:
-
-            #self.minCost( starting_row )
-            path=[]
-            (dMatrix, costrow) = self.dynamicP(matrix, m, n)
-            pathstorage = self.dynamicPaths(dMatrix)
-
-            #Visualize paths
-            for paths in pathstorage:
-                paths.reverse()
-                self._visualiser.addPath(paths)
+        
+        m=480
+        n=843
             
-            #Find best path
-            for best in range(len(costrow):
-                if costrow[best] == min()
+
+        # Search for one random path:
+
+        #self.minCost( starting_row )
+        path=[]
+        (dMatrix, costrow) = self.dynamicP(matrix, m, n)
+        pathstorage = self.dynamicPaths(dMatrix)
+
+        #Visualize paths
+        for paths in pathstorage:
+            paths.reverse()
+            self._visualiser.addPath(paths)
+            
+        #Find best path
+        for best in range(len(costrow)):
+            if costrow[best] == best:
+                pass
 
 
         # The only path so it must also be the best path, visualise that:
@@ -79,7 +80,7 @@ class Pathfinder:
         #        total_cost.append(tc[i][j])
 
         for i in range(1, n+1):
-            for j in range(1, m+1):
+            for j in range(0, m):
                 if j <=1:
                     BU=1000000000
                 else:
@@ -92,7 +93,7 @@ class Pathfinder:
                 B=abs(cost[j][i] - cost[j][i-1]) + tc[j][i-1]
                 next_min=min(BU, B, BD)
                 
-                print("NM {} on col:{}, pos {}".format(next_min, i, cost[j][i]))
+                print("NM {} on col:{}, row {} pos {}".format(next_min, i, j, cost[j][i]))
                 tc[j][i] = next_min
                 
                 #add append of abs to list
@@ -132,14 +133,14 @@ class Pathfinder:
                     nextMin=min(grid[rows-1][cols-1], grid[rows][cols-1], grid[rows+1][cols-1])
 
                 if  nextMin == grid[rows+1][cols-1]:
-                    pathlist.append(rows)
+                    pathlist.append(rows+1)
                     rows +=1
             
                 elif nextMin == grid[rows][cols-1]:
                     pathlist.append(rows)
                     rows = rows
                 elif nextMin == grid[rows-1][cols-1]:
-                    pathlist.append(rows)
+                    pathlist.append(rows-1)
                     rows -= 1
 
                 cols-= 1
