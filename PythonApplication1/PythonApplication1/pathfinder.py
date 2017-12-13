@@ -26,7 +26,7 @@ class Pathfinder:
         
         for j in range(0,10):       
             print(dMatrix[j][836],dMatrix[j][837],dMatrix[j][838],dMatrix[j][839],dMatrix[j][840],dMatrix[j][841],dMatrix[j][842],dMatrix[j][843] )
-        for i in debugstorage[0]:
+        for i in debugstorage[1]:
             print(i)
      
          
@@ -38,7 +38,7 @@ class Pathfinder:
             
         #Find and show best path
         costrow.sort()
-        bestpath=costrow[1]
+        bestpath=min(costrow)
         for best in range(len(costrow)):
             if costrow[best] == bestpath:
                 self._visualiser.setBestPath(pathstorage[best])
@@ -98,7 +98,7 @@ class Pathfinder:
         for i in range(0,477):
             cols=844
             rows=i
-            while cols>0:
+            while cols>830:
                 if rows >=478:
                     nextMin=min(grid[rows-1][cols-1], grid[rows][cols-1])
                 elif rows <=0:
@@ -109,19 +109,19 @@ class Pathfinder:
                     nextMin=min(grid[rows-1][cols-1], grid[rows][cols-1], grid[rows+1][cols-1])
 
                 if  nextMin == grid[rows+1][cols-1]:
-                    pathlist.append(rows)
-                    debuglist.append([rows, cols])
+                    pathlist.append(rows+1)
+                    debuglist.append([rows+1, cols-1])
                     rows +=1
             
                 elif nextMin == grid[rows][cols-1]:
                     pathlist.append(rows)
-                    debuglist.append([rows, cols])
+                    debuglist.append([rows, cols-1])
                     rows = rows
                 elif nextMin == grid[rows-1][cols-1]:
-                    pathlist.append(rows)
-                    debuglist.append([rows, cols])
+                    pathlist.append(rows-1)
+                    debuglist.append([rows-1, cols-1])
                     rows -= 1
-
+                print(nextMin, rows,cols)
                 cols-= 1
             
             #Gathers each rows path and appends to pathlist
