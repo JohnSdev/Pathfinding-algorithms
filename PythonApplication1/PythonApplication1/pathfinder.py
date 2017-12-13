@@ -20,11 +20,9 @@ class Pathfinder:
         #Dynamic algo to find all the end points with leas cost
         pathstorage, debugstorage = self.dynamicPaths(dMatrix)
 
-        print(dMatrix[0])
-        print(dMatrix[0][843])
-        print(dMatrix[0][843])
+
         
-        for j in range(0,10):       
+        for j in range(0,479):       
             print(dMatrix[j][836],dMatrix[j][837],dMatrix[j][838],dMatrix[j][839],dMatrix[j][840],dMatrix[j][841],dMatrix[j][842],dMatrix[j][843] )
         for i in debugstorage[1]:
             print(i)
@@ -98,7 +96,7 @@ class Pathfinder:
         for i in range(0,477):
             cols=844
             rows=i
-            while cols>830:
+            while cols>0:
                 if rows >=478:
                     nextMin=min(grid[rows-1][cols-1], grid[rows][cols-1])
                 elif rows <=0:
@@ -121,7 +119,7 @@ class Pathfinder:
                     pathlist.append(rows-1)
                     debuglist.append([rows-1, cols-1])
                     rows -= 1
-                print(nextMin, rows,cols)
+                #print(nextMin, rows,cols)
                 cols-= 1
             
             #Gathers each rows path and appends to pathlist
