@@ -22,7 +22,7 @@ class Pathfinder:
         (dMatrix, costrow) = self.dynamicP(matrix, m, n)
         pathstorage = self.dynamicPaths(dMatrix)
         print(dMatrix[0])
-
+        
         #Visualize paths
         for paths in pathstorage:
             paths.reverse()
