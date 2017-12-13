@@ -10,19 +10,17 @@ class Pathfinder:
         cost=0
         pathstorage=[]
         bestpath=0
-
+        path=[]
+        #Sets bottom/down point at the far end of the matrix in order to test all the possible routes
         m=479
         n=843
-        starting_row = x
 
-        # Search for one random path:
-
-        #self.minCost( starting_row )
-        path=[]
+        
         (dMatrix, costrow) = self.dynamicP(matrix, m, n)
-        pathstorage = self.dynamicPaths(dMatrix)
-        print(dMatrix[0])
+        #Dynamic algo to find all the end points with leas cost
+        pathstorage, debugstorage = self.dynamicPaths(dMatrix)
 
+        for x in range(823,843):
         #Visualize paths
         for paths in pathstorage:
             paths.reverse()
@@ -37,7 +35,7 @@ class Pathfinder:
                 self._visualiser.setBestPathCost( bestpath )
 
 
-    #Dynamic programming algo
+    #Dynamic programming algorithm
     def dynamicP(self, grid, m, n):
         cost=grid
         R = 480
@@ -70,7 +68,7 @@ class Pathfinder:
 
 
 
-        
+        #Creates a list with all the total cost/row
         costrow=[]
         #Debug chow last col, aka total cost 
         for x in range(0,478):
@@ -83,8 +81,10 @@ class Pathfinder:
     #Build paths after dynamic arrays it created
     def dynamicPaths(self, grid):
         pathlist=[]
+        debuglist=[]
+        debubstorage=[]
         pathstorage=[]
-
+        #Start traverse bottom-up
         for i in range(0,477):
             cols=844
             rows=i
@@ -100,23 +100,30 @@ class Pathfinder:
 
                 if  nextMin == grid[rows+1][cols-1]:
                     pathlist.append(rows)
+                    debuglist.append([rows, cols])
                     rows +=1
             
                 elif nextMin == grid[rows][cols-1]:
                     pathlist.append(rows)
+                    debuglist.append([rows, cols])
                     rows = rows
                 elif nextMin == grid[rows-1][cols-1]:
                     pathlist.append(rows)
+                    debuglist.append([rows, cols])
                     rows -= 1
 
                 cols-= 1
             
             #Gathers each rows path and appends to pathlist
-            pathstorage.append(pathlist)   
-            pathlist=[]
-        return pathstorage
+            pathstorage.append(pathlist)  
+            debubstorage.append(debuglist)
+            
+            debuglist=[]
 
-    #Dynamic programming draft,       
+            pathlist=[]
+        return pathstorage, debubstorage
+
+    #Dynamic programming draft     
     def minCost(self, start):
         cost=0
 

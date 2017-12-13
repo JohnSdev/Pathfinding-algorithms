@@ -1,46 +1,6 @@
 import math
-"""from map import *
 
-map=[[1,13,1,1],
-     [22,32,2,2],
-     [3,4,5,6]]
-
-for i in range(0,2):
-    a1=map[-1]
-    a2=map[-2]
-    for x in range(len(map)):
-        a2[x] += min(a1[x], a1[x+1])
-        print(a2)
-    map.pop(-1)
-
-    map[-1] = a2
-print(map[0][0])
-
-
-# Dynamic Programming Python implementation of Min Cost Path
-# problem
-
-import fileinput
-from itertools import accumulate
-
-
-    if not matrix:
-        return 0                                # 0 rows
-
-    rows = iter(matrix)
-    best = list(accumulate(next(rows)))
-    print(best)
-    if not best:
-        return 0                                # 0 columns
-
-    for row in rows:
-        best[0] += row[0]
-        for j in range(1, len(row)):
-            best[j] = row[j] + min(best[j-1],   # approaching from the left
-                                   best[j])     # approaching from above
-    return best[-1]
-"""
- 
+g 
 def minCost(cost, m, n):
     R = 4
     C = 4
@@ -100,12 +60,10 @@ def minCost(cost, m, n):
         
     return tc
 
-# Driver program to test above functions
 
-#for x in range(0,4):
 #    print("rad:{}, costnad: {}".format(x, minCost(cost, 3, x)))
 
-
+#Backtrack example LCS
 def backtrack( a, b, LCS ):
     s = ""
     # read the substring out from the matrix
@@ -139,6 +97,7 @@ cost = [[2000, 2500, 1500, 1500],
         [2, 3, 2, 1],
         [2, 3, 2, 1]]
 
+#To test the algorithm
 tc=minCost(cost, trow, tcol)
 path = backtrack( trow,tcol, tc )
 
