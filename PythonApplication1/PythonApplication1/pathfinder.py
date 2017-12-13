@@ -13,7 +13,7 @@ class Pathfinder:
 
         m=479
         n=843
-        starting_row = x
+        
 
         # Search for one random path:
 
