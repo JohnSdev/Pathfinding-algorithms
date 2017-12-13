@@ -20,7 +20,7 @@ class Pathfinder:
         #Dynamic algo to find all the end points with leas cost
         pathstorage, debugstorage = self.dynamicPaths(dMatrix)
 
-        for x in range(823,843):
+        #for x in range(823,843):
         #Visualize paths
         for paths in pathstorage:
             paths.reverse()
