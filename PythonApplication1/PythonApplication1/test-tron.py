@@ -51,17 +51,17 @@ def minCost(cost, m, n):
     tc[0][0] = cost[0][step]#col 3
     
     
-    for i in range(1, m+1):
-        tc[i][0] = abs(cost[i-1][0] - cost[i][step])
-        #tc[i][0] = tc[i-1][0] + cost[i][step]
+    #for i in range(1, m+1):
+    #    tc[i][0] = abs(cost[i-1][0] - cost[i][step])
+    #    #tc[i][0] = tc[i-1][0] + cost[i][step]
  
   
-    for j in range(1, n+1):
-        tc[0][j] = abs(cost[0][j-1] - cost[0][j+step])
+    #for j in range(1, n+1):
+    #    tc[0][j] = abs(cost[0][j-1] - cost[0][j+step])
  
     
     for i in range(1, m+1):
-        for j in range(1, n+1):
+        for j in range(0, n+1):
             next_min=min(cost[i-1][j-1], cost[i-1][j], cost[i-1][j+1])
             print(next_min)
             tc[i][j] = abs(next_min - cost[i][j+step])
@@ -74,47 +74,16 @@ def minCost(cost, m, n):
     print(sum(total_cost))
     return tc[m][n]
 
-def dynamicP(self, grid, m, n):
-        cost=grid
-        R = 5
-        C = 7
-        total_cost=[]
-        #Create mirror array
-        tc = [[0 for x in range(C)] for x in range(R)]
-
-        #Top down cost traverser
-        for i in range(1, n+1):
-            for j in range(0, m):
-                #BackUp, Back, and BackDown checks
-                if j <=1:
-                    BU=1000000000
-                else:
-                    BU=abs(cost[j][i] - cost[j-1][i-1]) + tc[j-1][i-1]
-                if j >=478:
-                    BD=1000000000
-                else:
-                
-                    BD=abs(cost[j][i] - cost[j+1][i-1]) + tc[j+1][i-1]
-                B=abs(cost[j][i] - cost[j][i-1]) + tc[j][i-1]
-                next_min=min(BU, B, BD)
-                
-                print("NM {} on col:{}, pos {}".format(next_min, i, cost[j][i]))
-                tc[j][i] = next_min
-                
-                #Adds total cost to list
-                total_cost.append(tc[j][i])
-
-                
 # Driver program to test above functions
-cost = [[1, 1, 1, 1, 1, 1, 1, 1],
-        [1, 2, 6, 2, 6, 2, 2, 2],
-        [1, 1, 6, 1, 6, 1, 1, 1],
-        [1, 1, 6, 1, 6, 1, 1, 1],
-        [1, 1, 1, 1, 5, 1, 1, 1],
-        [1, 1, 1, 1, 1, 1, 1, 1]]
+cost = [[0, 0, 0, 0, 0, 0, 0, 0],
+        [0, 2, 0, 0, 0, 0, 0, 0],
+        [0, 2, 2, 0, 0, 0, 0, 0],
+        [0, 0, 0, 0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0, 1, 0, 0],
+        [0, 0, 0, 0, 0, 0, 0, 0]]
 #for x in range(0,4):
 #    print("rad:{}, costnad: {}".format(x, minCost(cost, 3, x)))
-print(minCost(cost, 5,4), "Target is 4")
+print(minCost(cost, 3,5), "Target is 4")
 
 
 # This code is contributed by Bhavya Jain
