@@ -13,15 +13,14 @@ class Pathfinder:
         path=[]
         #Sets bottom/down point at the far end of the matrix in order to test all the possible routes
         m=479
-        n=843
+        n=843       
 
         
         (dMatrix, costrow) = self.dynamicP(matrix, m, n)
         #Dynamic algo to find all the end points with leas cost
         pathstorage, debugstorage = self.dynamicPaths(dMatrix)
 
-
-        
+        #Debuging
         for j in range(0,479):       
             print(dMatrix[j][836],dMatrix[j][837],dMatrix[j][838],dMatrix[j][839],dMatrix[j][840],dMatrix[j][841],dMatrix[j][842],dMatrix[j][843] )
         for i in debugstorage[1]:
@@ -29,13 +28,12 @@ class Pathfinder:
      
          
         #Visualize paths
-        
         for paths in pathstorage:
             paths.reverse()
             self._visualiser.addPath(paths)
             
         #Find and show best path
-        costrow.sort()
+        costrow.sort() 
         bestpath=min(costrow)
         for best in range(len(costrow)):
             if costrow[best] == bestpath:
@@ -78,7 +76,7 @@ class Pathfinder:
 
         #Creates a list with all the total cost/row
         costrow=[]
-        #Debug chow last col, aka total cost 
+        #Debug rows on last col, aka total cost for every possible endpoint
         for x in range(0,478):
             costrow.append(tc[x][843])
         #Debug show list with all rows costs
@@ -86,7 +84,7 @@ class Pathfinder:
          
         return (tc, costrow)
 
-    #Build paths after dynamic arrays it created
+    #Build paths after dynamic arrays are created
     def dynamicPaths(self, grid):
         pathlist=[]
         debuglist=[]
@@ -130,75 +128,9 @@ class Pathfinder:
 
             pathlist=[]
         return pathstorage, debubstorage
-
-    #Dynamic programming draft     
-    def minCost(self, start):
-        cost=0
-
-
-        rows = self._map.getHeight()
-        cols = self._map.getWidth()
-        row = start
-        costn = []
-        col=0
-        path=[ row ]
-        path.append( row )
-        matrix=self._map.getMatrix()
-        new=list(zip(*matrix))[::-1]
-        rotatedmap = list(map(list, new))
-        R = 900
-        C = 600
-        m=840
-        n=5
-        #col=0
-        
-        #path=[col]
-        
-        step=0
-
-        tc = [[0 for x in range(C)] for x in range(R)]
-        
-        tc[0][0] = rotatedmap[0][step]#col 3
     
-        # Initialize first column of total cost(tc) array
-        for i in range(1, m+1):
-            tc[i][0] = tc[i-1][0] + rotatedmap[i][step]
-        
-        # Initialize first row of tc array
-        for j in range(1, n+1):
-            tc[0][j] = tc[0][j-1] + rotatedmap[0][j+step]
-        
-        # Construct rest of the tc array
-        for i in range(1, m+1):
-            for j in range(1, n+1):
-                next_min=min(tc[i-1][j-1], tc[i-1][j], tc[i][j-1])
-                tc[i][j] = abs(next_min - rotatedmap[i][j+step])     
-                      
-       
-        costn.append(int(tc[m][n]))        
-        #path.append(col)
-        #print (costn)
-        total=(sorted(costn))
-       
-        print(tc[m][n])
-        r=0
-        path=[ row ]
-        row = row + r
-        if row < 0:
-            row = 0
-        if row > rows-1:
-        
-            row = rows-1
-        
-        path.append(row)
-
-        return 
-      
-
-    #        total.append(sum(costn))
-
-    #    print(sorted(total))
-        
+      ### Original main function, not used :)
+      #  
     #def findPath(self, starting_row):
     #    # Code to find one path from left to right through the map
     #    # And return the total "cost" and path
