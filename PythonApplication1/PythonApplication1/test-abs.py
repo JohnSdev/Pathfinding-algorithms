@@ -1,6 +1,6 @@
 import math
 
-g 
+
 def minCost(cost, m, n):
     R = 4
     C = 4
@@ -81,14 +81,14 @@ def backtrack( a, b, LCS ):
             j -= 1
     return s
 
-trow=2
+trow=3
 tcol=2
 
-cost2 = [[1, 1, 2, 1],
-        [2, 3, 2, 2],
-        [2, 3, 2, 1],
-        [2, 3, 2, 1],
-        [2, 3, 2, 1]]
+cost2 = [[0, 0, 0, 0],
+        [2, 2, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 1, 0],
+        [0, 0, 1, 0]]
 
 cost = [[2000, 2500, 1500, 1500],
         [1800, 1900, 4500, 4500],
@@ -98,7 +98,7 @@ cost = [[2000, 2500, 1500, 1500],
         [2, 3, 2, 1]]
 
 #To test the algorithm
-tc=minCost(cost, trow, tcol)
+tc=minCost(cost2, trow, tcol)
 path = backtrack( trow,tcol, tc )
 
 
