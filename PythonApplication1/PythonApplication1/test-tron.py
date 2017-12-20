@@ -74,6 +74,47 @@ def minCost(cost, m, n):
     print(sum(total_cost))
     return tc[m][n]
 
+def path(tc, row, cols):
+    pathlist=[]
+    debuglist=[]
+    debubstorage=[]
+    pathstorage=[]
+
+    #Start traverse bottom-up
+    for rows in range(0,):
+
+
+        while cols==cols:
+            if rows >=17:
+                nextMin=max(tc[rows-1][cols], tc[rows][cols-1])
+            elif rows <=0:
+                nextMin=max(tc[rows][cols-1], tc[rows+1][cols])
+    
+            else:
+    
+                nextMin=max(tc[rows-1][cols], tc[rows][cols-1], tc[rows+1][cols])
+            
+                if  nextMin == tc[rows+1][cols]:
+                    
+                    newdir = "DOWN"
+                    #pathlist.append("DOWN")
+                    #debuglist.append([rows+1, cols-1])
+                    rows +=1
+            
+                elif nextMin == tc[rows][cols-1]:
+                    newdir = "LEFT"
+                    #pathlist.append("LEFT")
+                    #debuglist.append([rows, cols-1])
+                    rows = rows
+                elif nextMin == tc[rows-1][cols]:
+                    newdir = "UP"
+                    #pathlist.append("UP")
+                    #debuglist.append([rows-1, cols-1])
+                    rows -= 1
+            #print(nextMin, rows,cols)
+            cols-= 1
+    return nextdir
+
 # Driver program to test above functions
 cost = [[0, 0, 0, 0, 0, 0, 0, 0],
         [0, 2, 0, 0, 0, 0, 0, 0],
