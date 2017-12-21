@@ -85,6 +85,12 @@ cost = [[0, 0, 0, 0, 0, 0, 0, 0],
 #    print("rad:{}, costnad: {}".format(x, minCost(cost, 3, x)))
 print(minCost(cost, 3,5), "Target is 4")
 
+grid = []
+for i in range(WIDTH):
+   x = []
+   for j in range(HEIGHT):
+       x.append(-1)
+   grid.append(x)
 
 # This code is contributed by Bhavya Jain
  

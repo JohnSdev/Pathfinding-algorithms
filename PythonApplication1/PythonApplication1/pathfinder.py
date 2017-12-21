@@ -64,13 +64,7 @@ class Pathfinder:
         print("Least cost in m: ", min(costlist))
         
         self._visualiser.setBestPathCost( min(costlist) )
-        
-     
 
-        # What next?  Can you do better than random?
-        # TODO:  Step 1 - a greeedy algorithm from a random starting position
-        # TODO:  Step 2 - best greedy of all possible starting positions
-        # TODO:  Step 3 - improve even more!
         return
 
     ##Recursive func
@@ -216,12 +210,7 @@ class Pathfinder:
                     minim=FwdU
                 else:
                     minim==FwdS
-           
 
-            
-
-        
-        
             
         #If position is not top/bottom, aka normal run
         #Check for equals and activate radar if nedded
