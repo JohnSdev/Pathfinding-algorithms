@@ -1,9 +1,10 @@
 import math
 
-
+WIDTH=6
+HEIGHT=5
 def minCost(cost, m, n):
-    R = 10
-    C = 10
+    R = HEIGHT+1
+    C = WIDTH+1
     total_cost=[]
     tc = [[0 for x in range(C)] for x in range(R)]
 
@@ -138,7 +139,9 @@ def backtrack2(tc, rows, cols, grid):
     return newdir, pathlist
 
 trow=4
-tcol=5
+tcol=4
+
+
 
 cost2 = [[0, 0,  0,   0,  0,  0],
          [0, 0,  0,   0,  0,  0],
@@ -165,14 +168,14 @@ cost = [[2000, 2500, 1500, 1500],
         [2, 3, 2, 1]]
 
 #To test the algorithm
-tc=minCost(rev, trow, tcol)
+tc=minCost(cost2, trow, tcol)
 for x in tc:
     print(x)
 
-#path, pathlist = backtrack(tc, trow,tcol, cost3)
-#print(pathlist)
-path2, pathlist2 = backtrack2(tc, 4,1, rev)
-print(pathlist2)
+path, pathlist = backtrack(tc, trow,tcol, cost2)
+print(pathlist)
+#path2, pathlist2 = backtrack2(tc, 4,1, rev)
+#print(pathlist2)
 
 
 
