@@ -1,3 +1,3 @@
 # Pathfinding-algorithms
 
-This was part of a school project to solve an algorithmic problem. I chose dynamic programig approach to solv the problem.
+This was part of a school project to solve an algorithmic problem. I chose a dynamic programig approach to solve the problem.
